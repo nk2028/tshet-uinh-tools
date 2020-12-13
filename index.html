@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>音韻地位查詢器</title>
+<script src="https://cdn.jsdelivr.net/npm/qieyun@0.7.4"></script>
+<script src="index.js"></script>
+<style>
+  body { line-height: 1.6; margin-left: 1em; margin-right: 1em; }
+  a:link { text-decoration: none; }
+  a:link:hover { border-bottom: 1px solid; }
+  .char { margin-left: 1px; margin-right: 1px; }
+  :lang(en-x-code) { font-family: monospace, monospace; }
+  #errorArea { color: red; }
+  output { display: block; }
+</style>
+</head>
+<body>
+<h1>音韻地位查詢器</h1>
+<form onsubmit="handleSubmit(); return false">
+  <p><label>音韻地位：<input id="inputArea" type="text" value="覃談凡韻 見溪影曉母 入聲"/></label></p>
+  <p><small>輸入格式請參考 <a href="https://nk2028.shn.hk/qieyun-js/"><span lang="en-HK">qieyun-js</span></a>，原始碼參見 <a lang="en-HK" href="https://github.com/nk2028/qieyun-tools">GitHub</a></small></p>
+  <p><input type="submit" value="查询"/></p>
+</form>
+<output id="outputArea"></output>
+<output id="errorArea" lang="en-x-code"></output>
+</body>
+</html>
