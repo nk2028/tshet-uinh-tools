@@ -2,7 +2,7 @@
 
 function handleSubmit() {
 	try {
-		const text = document.getElementById('inputArea').value;
+		const text = document.getElementById('inputArea').value.trim();
 		const res = [];
 		for (let i = 1; i <= 3874; i++) {
 			if (Qieyun.get音韻地位(i).屬於(text)) {
