@@ -5,20 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta property="og:image" content="https://avatars3.githubusercontent.com/u/63484757?s=400&amp;v=4"/>
 <meta property="og:description" content="一個工具令你找到符合音韻地位的所有字。"/>
-<meta name="keywords" content="音韻學, 《切韵》音系, 中古音, 查詢器"/>
+<meta name="keywords" content="音韻學, 《切韻》音系, 中古音, 查詢器"/>
 <title>音韻地位查詢器</title>
 <script src="https://cdn.jsdelivr.net/npm/qieyun@0.7.5"></script>
 <script src="index.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hanamin@latest/HanaMin.min.css"/>
 <style>
   body { line-height: 1.6; margin-left: 1em; margin-right: 1em; }
   a:link { text-decoration: none; }
   a:link:hover { border-bottom: 1px solid; }
-  .char { margin-left: 1px; margin-right: 1px; }
+  .char { margin-left: 4px; margin-right: 4px; }
+  #outputArea:empty::before { content: "〈無字〉" ; }
   #errorArea { color: red; }
   output { display: block; }
   :lang(en) { font: serif, serif; }
   :lang(en-x-code) { font-family: monospace, monospace; }
-  :lang(zh-HK) { font-family: serif, HanaMin, serif, serif; }
+  :lang(zh-HK) { font-family: serif, serif, HanaMin, serif; }
   input { font-family: inherit; }
   .tips { font-size: smaller; }
   b { border-bottom: 1px solid; }
