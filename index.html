@@ -10,18 +10,22 @@
 <script src="https://cdn.jsdelivr.net/npm/qieyun@0.10.5"></script>
 <script src="index.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hanamin@latest/HanaMin.min.css"/>
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"/>
 <style>
-  body { line-height: 1.6; margin-left: 1em; margin-right: 1em; }
-  a:link { text-decoration: none; }
+  body { line-height: 1.6; padding-left: 10em; padding-right: 10em; }
+  @media only screen and (max-width: 1192px) {
+    body { padding-left: 1em; padding-right: 1em; }
+  }
+  .pure-form select { padding-top: 0; padding-bottom: 0; }
+  a:link { color: #0366d6; text-decoration: none; }
   a:link:hover { border-bottom: 1px solid; }
   .char { margin-left: 4px; margin-right: 4px; }
   #outputArea:empty::before { content: "〈無字〉"; }
   #errorArea { color: red; }
-  output { display: block; }
   :lang(en) { font-family: serif, serif; }
   :lang(en-x-code) { font-family: monospace, monospace; }
   :lang(zh-HK) { font-family: serif, serif, HanaMin, serif; }
-  input { font-family: inherit; }
+  .pure-form input { font-family: inherit; }
   .tips { font-size: smaller; }
   b { border-bottom: 1px solid; }
   ul { padding-left: 1.5em; }
@@ -29,8 +33,11 @@
 </head>
 <body>
 <h1>音韻地位查詢器</h1>
-<form onsubmit="handleSubmit(); return false">
-  <p><label>音韻地位：<input id="inputArea" type="text" value="冬韻 平聲"/></label></p>
+<form class="pure-form" onsubmit="handleSubmit(); return false">
+  <p>
+    <label>音韻地位：<input id="inputArea" type="text" value="冬韻 平聲"/></label>
+    <input class="pure-button" type="submit" value="查詢"/>
+  </p>
   <div class="tips">
     <ul>
       <li>支援的運算符：幫<b>母</b>、脣<b>音</b>、幫<b>組</b>、<b>開口</b>、<b>合口</b>、一<b>等</b>、<b>重紐A類</b>、<b>重紐B類</b>、東<b>韻</b>、通<b>攝</b>、平<b>聲</b>、仄<b>聲</b>、舒<b>聲</b>、<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>或</b>（詳見 <a href="https://nk2028.shn.hk/qieyun-js/"><span lang="en-HK">qieyun-js</span></a>）</li>
@@ -48,9 +55,8 @@
       </ul>
     </ul>
   </div>
-  <p><input type="submit" value="查詢"/></p>
 </form>
-<output id="outputArea"></output>
-<output id="errorArea" lang="en-x-code"></output>
+<p><output id="outputArea"></output></p>
+<p><output id="errorArea" lang="en-x-code"></output></p>
 </body>
 </html>
