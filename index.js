@@ -4,9 +4,9 @@ function handleSubmit() {
 	try {
 		const text = document.getElementById('inputArea').value.trim();
 		const fragment = document.createDocumentFragment();
-		for (let i = 1; i <= 3874; i++) {
-			if (Qieyun.get音韻地位(i).屬於(text)) {
-				for (const [字頭, 解釋] of Qieyun.query小韻號(i)) {
+		for (const 音韻地位 of Qieyun.iter音韻地位()) {
+			if (音韻地位.屬於(text)) {
+				for (const { 字頭 } of 音韻地位.條目) {
 					const a = document.createElement('a');
 					a.classList.add('char');
 					a.target = '_blank';
