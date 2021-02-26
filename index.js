@@ -2,7 +2,7 @@
 
 let 常見字;
 
-fetch('https://raw.githubusercontent.com/ayaka14732/syyon-vencie/69bc015b5c3df4cb3f1a856d49d9bf8a3271396e/texts/%E5%B8%B8%E7%94%A8%E5%AD%97%E9%A0%BB%E5%BA%8F%E8%A1%A8.txt')
+fetch('https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/%E5%B8%B8%E7%94%A8%E5%AD%97%E9%A0%BB%E5%BA%8F%E8%A1%A8.txt')
 .then((response) => response.text())
 .then((text) => 常見字 = new Set(text));
 
