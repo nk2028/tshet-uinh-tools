@@ -1,10 +1,16 @@
 'use strict';
 
-let 常見字;
+let 常見字 = new Set();
+let 常見字頻序 = {};
 
 fetch('https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/%E5%B8%B8%E7%94%A8%E5%AD%97%E9%A0%BB%E5%BA%8F%E8%A1%A8.txt')
 .then((response) => response.text())
-.then((text) => 常見字 = new Set(text));
+.then((text) => {
+	[...text].forEach((字, 頻序) => {
+		常見字.add(字);
+		常見字頻序[字] = 頻序;
+	});
+});
 
 function 創建單字HTML(字頭) {
 	const a = document.createElement('a');
@@ -14,6 +20,8 @@ function 創建單字HTML(字頭) {
 	a.innerText = 字頭;
 	return a;
 }
+
+const cmp = (a, b) => (常見字頻序[a] || 99999) - (常見字頻序[b] || 99999);
 
 function 根據音韻表達式查字(用户輸入) {
 	const 顯示哪些字 = document.getElementById('form顯示哪些字').顯示哪些字.value;
@@ -41,7 +49,7 @@ function 根據音韻表達式查字(用户輸入) {
 		}
 
 		const fragment = document.createDocumentFragment();
-		for (const 字頭 of res) {
+		for (const 字頭 of [...res].sort(cmp)) {
 			fragment.appendChild(創建單字HTML(字頭));
 		}
 
@@ -79,7 +87,7 @@ function 根據音韻描述查字(用户輸入) {
 	}
 
 	const fragment = document.createDocumentFragment();
-	for (const 字頭 of res) {
+	for (const 字頭 of [...res].sort(cmp)) {
 		fragment.appendChild(創建單字HTML(字頭));
 	}
 
