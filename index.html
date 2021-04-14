@@ -50,7 +50,7 @@
   </ul>
 </ul>
 
-<form class="pure-form" onsubmit="查字(this.elements['查詢方式'].value, this.elements['用户輸入'].value.trim()); return false">
+<form class="pure-form" name="query" onsubmit="查詢(); return false">
   <div class="query-container">
     根據
     <select name="查詢方式" onchange="this.form.elements['用户輸入'].value = 佔位符(this.value)">
@@ -71,9 +71,9 @@
 <h2>查詢結果</h2>
 <form id="form顯示哪些字" onsubmit="return false">
   <p>
-    <label class="pure-radio"><input type="radio" name="顯示哪些字" value="只顯示常用字" checked="checked"/> 只顯示常用字</label>
-    <label class="pure-radio"><input type="radio" name="顯示哪些字" value="一個音韻地位只顯示一個代表字"/> 一個音韻地位只顯示一個代表字</label>
-    <label class="pure-radio"><input type="radio" name="顯示哪些字" value="顯示所有字"/> 顯示所有字</label>
+    <label class="pure-radio"><input type="radio" name="顯示哪些字" onchange="查詢()" value="只顯示常用字" checked="checked"/> 只顯示常用字</label>
+    <label class="pure-radio"><input type="radio" name="顯示哪些字" onchange="查詢()" value="一個音韻地位只顯示一個代表字"/> 一個音韻地位只顯示一個代表字</label>
+    <label class="pure-radio"><input type="radio" name="顯示哪些字" onchange="查詢()" value="顯示所有字"/> 顯示所有字</label>
   </p>
 </form>
 
