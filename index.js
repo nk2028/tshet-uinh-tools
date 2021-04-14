@@ -95,3 +95,19 @@ function 根據音韻描述查字(用户輸入) {
 	document.getElementById('outputArea').appendChild(fragment);
 	document.getElementById('errorArea').innerText = '';
 }
+
+function 查字(查詢方式, 用戶輸入) {
+	console.log(`查字(${查詢方式}, ${用戶輸入})`)
+	const 處理 = {
+		'音韻表達式': 根據音韻表達式查字,
+		'音韻描述': 根據音韻描述查字
+	}
+	處理[查詢方式](用戶輸入)
+}
+
+function 佔位符(查詢方式) {
+	return {
+		'音韻表達式': '冬韻 平聲',
+		'音韻描述': '云三虞上'
+	}[查詢方式]
+}

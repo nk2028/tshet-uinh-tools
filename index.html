@@ -25,6 +25,8 @@
   :lang(en-x-code) { font-family: monospace, monospace; }
   :lang(zh-HK) { font-family: serif, serif, HanaMin, serif; }
   .pure-form input { font-family: inherit; height: 2.5rem; }
+  .query-container { font-weight: bold; }
+  .query-container input[type="submit"] { width: 5rem; }
   .tips { font-size: smaller; }
   b { border-bottom: 1px solid; }
   ul { padding-left: 1.5em; margin-left: 1.5rem; }
@@ -48,25 +50,22 @@
   </ul>
 </ul>
 
-<h2>根據音韻表達式查字</h2>
-<form class="pure-form" onsubmit="根據音韻表達式查字(this.elements['用户輸入'].value.trim()); return false">
-  <p>
-    <label>音韻表達式：<input name="用户輸入" type="text" value="冬韻 平聲"/></label>
+<form class="pure-form" onsubmit="查字(this.elements['查詢方式'].value, this.elements['用户輸入'].value.trim()); return false">
+  <div class="query-container">
+    根據
+    <select name="查詢方式" onchange="this.form.elements['用户輸入'].value = 佔位符(this.value)">
+      <option>音韻表達式</option>
+      <option>音韻描述</option>
+    </select>
+    查字：
+    <input name="用户輸入" type="text" value="冬韻 平聲"/>
     <input class="pure-button" type="submit" value="查詢"/>
-  </p>
+  </div>
   <ul class="tips">
     <li>
-      支援的運算符：幫<b>母</b>、脣<b>音</b>、幫<b>組</b>、<b>開口</b>、<b>合口</b>、<b>開合中立</b>、一<b>等</b>、<b>重紐A類</b>、<b>重紐B類</b>、東<b>韻</b>、通<b>攝</b>、平<b>聲</b>、仄<b>聲</b>、舒<b>聲</b>、<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>或</b>（詳見 <a href="https://nk2028.shn.hk/qieyun-js/"><span lang="en-HK">qieyun-js</span></a>）
+      支援的音韻表達式運算符：幫<b>母</b>、脣<b>音</b>、幫<b>組</b>、<b>開口</b>、<b>合口</b>、<b>開合中立</b>、一<b>等</b>、<b>重紐A類</b>、<b>重紐B類</b>、東<b>韻</b>、通<b>攝</b>、平<b>聲</b>、仄<b>聲</b>、舒<b>聲</b>、<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>或</b>（詳見 <a href="https://nk2028.shn.hk/qieyun-js/"><span lang="en-HK">qieyun-js</span></a>）
     </li>
   </ul>
-</form>
-
-<h2>根據音韻描述查字</h2>
-<form class="pure-form" onsubmit="根據音韻描述查字(this.elements['用户輸入'].value.trim()); return false">
-  <p>
-    <label>音韻描述：<input name="用户輸入" type="text" value="云三虞上"/></label>
-    <input class="pure-button" type="submit" value="查詢"/>
-  </p>
 </form>
 
 <h2>查詢結果</h2>
