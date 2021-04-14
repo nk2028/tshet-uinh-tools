@@ -12,66 +12,97 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hanamin@latest/HanaMin.min.css"/>
 <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"/>
 <style>
-  body { line-height: 1.6; padding-left: 10em; padding-right: 10em; }
-  @media only screen and (max-width: 1192px) {
-    body { padding-left: 1em; padding-right: 1em; }
-  }
-  .pure-form select { padding-top: 0; padding-bottom: 0; }
-  a:link { color: #0366d6; text-decoration: none; }
-  a:link:hover { border-bottom: 1px solid; }
-  .char { margin-left: 4px; margin-right: 4px; }
-  #errorArea { color: red; }
+  /* Style Reset */
+  input { font-family: inherit; }
+
+  /* Font Family */
   :lang(en) { font-family: serif, serif; }
   :lang(en-x-code) { font-family: monospace, monospace; }
   :lang(zh-HK) { font-family: serif, serif, HanaMin, serif; }
-  .pure-form input { font-family: inherit; }
-  .tips { font-size: smaller; }
+
+  /* Whole Page */
+  body { line-height: 1.6; padding-top: 1rem; padding-left: 10em; padding-right: 10em; }
+  @media only screen and (max-width: 1192px) {
+    body { padding-left: 1em; padding-right: 1em; }
+  }
+  body { display: flex; flex-direction: column; justify-content: center; align-items: center;}
+
+  /* Headings */
+  h1 {
+    margin: 0.5rem 0;
+  }
+
+  /* Links */
+  a:link { color: #0366d6; text-decoration: none; }
+  a:link:hover { border-bottom: 1px solid; }
+  
+  /* Output */
+  output { display: block; max-width: 45rem;}
+  .char { margin-left: 4px; margin-right: 4px; }
+  #errorArea { color: #ff0032; }
+
+  /* Lists */
+  ul.tips { margin: 1rem; padding-left: 1.5em; font-size: smaller; max-width: 35rem; }
+
+  /* Forms */
+  .query-container { margin: 1rem 0; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: larger; }
+  .query-container > * { margin: 0 0.5rem; height: 3rem !important; padding-top: 0; padding-bottom: 0; }
+  .query-container span { display: flex; justify-content: center; align-items: center; margin: 0;}
+  @media only screen and (max-width: 720px) {
+    .query-container span { display: none; }
+  }
+  .query-container input[type="submit"] { width: 5rem; margin-left: 0; }
+  .query-container input[type="text"] { min-width: 20rem; max-width: 50rem; }
+
+  .radio-container { display: flex; user-select: none; }
+  .radio-container label { margin: 0 0.2rem; }
+  .radio-container [type="radio"] { margin: 0 0.3rem; }
+
+  /* Other */
   b { border-bottom: 1px solid; }
-  ul { padding-left: 1.5em; }
+
 </style>
 </head>
 <body>
 <h1>音韻地位查詢器</h1>
+<ul class="tips">
+  <li>原始碼參見 <a lang="en-HK" href="https://github.com/nk2028/qieyun-tools">GitHub</a>，相關工具：<a href="https://nk2028.shn.hk/qieyun-autoderiver/">推導器</a></li>
+  <li>注意本查詢器將元韻視為臻攝而非山攝</li>
+  <li>注意以下異體字，在本查詢器中查詢時，須使用右邊的寫法才能使程式正確識別：</li>
+  <ul>
+    <li>唇音→脣音</li>
+    <li>娘母→孃母</li>
+    <li>荘母→莊母</li>
+    <li>谿母→溪母</li>
+    <li>群母→羣母</li>
+    <li>餚韻→肴韻</li>
+    <li>真韻→眞韻</li>
+  </ul>
+</ul>
 
-<form id="form顯示哪些字" onsubmit="return false">
-  <p>
-    <label class="pure-radio"><input type="radio" name="顯示哪些字" value="只顯示常用字" checked="checked"/> 只顯示常用字</label>
-    <label class="pure-radio"><input type="radio" name="顯示哪些字" value="一個音韻地位只顯示一個代表字"/> 一個音韻地位只顯示一個代表字</label>
-    <label class="pure-radio"><input type="radio" name="顯示哪些字" value="顯示所有字"/> 顯示所有字</label>
-  </p>
-</form>
-
-<h2>根據音韻表達式查字</h2>
-<form class="pure-form" onsubmit="根據音韻表達式查字(this.elements['用户輸入'].value.trim()); return false">
-  <p>
-    <label>音韻表達式：<input name="用户輸入" type="text" value="冬韻 平聲"/></label>
+<form class="pure-form" name="query" onsubmit="查詢(); return false">
+  <div class="query-container">
+    <span>根據</span>
+    <select name="查詢方式" onchange="this.form.elements['用户輸入'].value = 佔位符(this.value)">
+      <option>音韻表達式</option>
+      <option>音韻描述</option>
+    </select>
+    <span>查字</span>
+    <input name="用户輸入" type="text" value="冬韻 平聲"/>
     <input class="pure-button" type="submit" value="查詢"/>
-  </p>
-  <div class="tips">
-    <ul>
-      <li>支援的運算符：幫<b>母</b>、脣<b>音</b>、幫<b>組</b>、<b>開口</b>、<b>合口</b>、<b>開合中立</b>、一<b>等</b>、<b>重紐A類</b>、<b>重紐B類</b>、東<b>韻</b>、通<b>攝</b>、平<b>聲</b>、仄<b>聲</b>、舒<b>聲</b>、<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>或</b>（詳見 <a href="https://nk2028.shn.hk/qieyun-js/"><span lang="en-HK">qieyun-js</span></a>）</li>
-      <li>原始碼參見 <a lang="en-HK" href="https://github.com/nk2028/qieyun-tools">GitHub</a>，相關工具：<a href="https://nk2028.shn.hk/qieyun-autoderiver/">推導器</a></li>
-      <li>注意本查詢器將元韻視為臻攝而非山攝</li>
-      <li>注意以下異體字，在本查詢器中查詢時，須使用右邊的寫法才能使程式正確識別：</li>
-      <ul>
-        <li>唇音→脣音</li>
-        <li>娘母→孃母</li>
-        <li>荘母→莊母</li>
-        <li>谿母→溪母</li>
-        <li>群母→羣母</li>
-        <li>餚韻→肴韻</li>
-        <li>真韻→眞韻</li>
-      </ul>
-    </ul>
   </div>
+  <ul class="tips">
+    <li>
+      支援的音韻表達式運算符：幫<b>母</b>、脣<b>音</b>、幫<b>組</b>、<b>開口</b>、<b>合口</b>、<b>開合中立</b>、一<b>等</b>、<b>重紐A類</b>、<b>重紐B類</b>、東<b>韻</b>、通<b>攝</b>、平<b>聲</b>、仄<b>聲</b>、舒<b>聲</b>、<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>或</b>（詳見 <a href="https://nk2028.shn.hk/qieyun-js/"><span lang="en-HK">qieyun-js</span></a>）
+    </li>
+  </ul>
 </form>
 
-<h2>根據音韻描述查字</h2>
-<form class="pure-form" onsubmit="根據音韻描述查字(this.elements['用户輸入'].value.trim()); return false">
-  <p>
-    <label>音韻描述：<input name="用户輸入" type="text" value="云三虞上"/></label>
-    <input class="pure-button" type="submit" value="查詢"/>
-  </p>
+<h2>查詢結果</h2>
+<form id="form顯示哪些字" class="radio-container" onsubmit="return false">
+  <label class="pure-radio"><input type="radio" name="顯示哪些字" onchange="查詢()" value="只顯示常用字" checked="checked"/>只顯示常用字</label>
+  <label class="pure-radio"><input type="radio" name="顯示哪些字" onchange="查詢()" value="一個音韻地位只顯示一個代表字"/>一個音韻地位只顯示一個代表字</label>
+  <label class="pure-radio"><input type="radio" name="顯示哪些字" onchange="查詢()" value="顯示所有字"/>顯示所有字</label>
 </form>
 
 <p><output id="outputArea"></output></p>
