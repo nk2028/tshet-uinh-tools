@@ -1,16 +1,26 @@
 'use strict';
 
+function hideLoadingOverlay() {
+	document.querySelector('#loading-overlay').classList.add('hidden');
+}
+
 let 常見字 = new Set();
 let 常見字頻序 = {};
 
 fetch('https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/%E5%B8%B8%E7%94%A8%E5%AD%97%E9%A0%BB%E5%BA%8F%E8%A1%A8.txt')
-.then((response) => response.text())
-.then((text) => {
-	[...text].forEach((字, 頻序) => {
-		常見字.add(字);
-		常見字頻序[字] = 頻序;
+	.then((response) => response.text())
+	.then((text) => {
+		[...text].forEach((字, 頻序) => {
+			常見字.add(字);
+			常見字頻序[字] = 頻序;
+		});
+	})
+	.catch((err) => {
+		alert(err);
+	})
+	.finally(() => {
+		hideLoadingOverlay()
 	});
-});
 
 function 創建單字HTML(字頭) {
 	const a = document.createElement('a');
