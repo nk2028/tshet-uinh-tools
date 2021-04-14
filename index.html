@@ -35,32 +35,49 @@
   /* Links */
   a:link { color: #0366d6; text-decoration: none; }
   a:link:hover { border-bottom: 1px solid; }
-  
-  /* Output */
-  output { display: block; max-width: 45rem;}
-  .char { margin-left: 4px; margin-right: 4px; }
-  #errorArea { color: #ff0032; }
 
   /* Lists */
   ul.tips { margin: 1rem; padding-left: 1.5em; font-size: smaller; max-width: 35rem; }
+  ul.tips b { border-bottom: 1px solid; }
 
   /* Forms */
   .query-container { margin: 1rem 0; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: larger; }
-  .query-container > * { margin: 0 0.5rem; height: 3rem !important; padding-top: 0; padding-bottom: 0; }
+  .query-container input, .query-container select { margin: 0 0.25rem; height: 3rem !important; padding-top: 0; padding-bottom: 0; }
+  .query-container .query-select { display: flex; justify-content: center; align-items: center; }
   .query-container span { display: flex; justify-content: center; align-items: center; margin: 0;}
+  .query-container input[type="submit"] { width: 5rem; }
+  .query-container input[type="text"] { min-width: min(20rem, 100vw - 5rem); }
   @media only screen and (max-width: 720px) {
     .query-container span { display: none; }
+    .query-container input, .query-container select { margin: 0.5rem; } 
   }
-  .query-container input[type="submit"] { width: 5rem; margin-left: 0; }
-  .query-container input[type="text"] { min-width: 20rem; max-width: 50rem; }
+  @media only screen and (max-width: 600px) {
+    .query-container { flex-direction: column; }
+    .query-container span { display: flex; }
+    .query-container input[type="submit"] { min-width: min(20rem, 100vw - 5rem); }
+  }
 
   .radio-container { display: flex; user-select: none; }
   .radio-container label { margin: 0 0.2rem; }
   .radio-container [type="radio"] { margin: 0 0.3rem; }
+  @media only screen and (max-width: 720px) {
+    .radio-container { flex-direction: column; }
+  }
+  
+  /* Outputs */
+  output { 
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 45rem;
+  }
 
-  /* Other */
-  b { border-bottom: 1px solid; }
-
+  #outputArea .char {
+    display: block;
+    margin: 0 0.3rem;
+  }
+  #errorArea { color: #ff0032; }
 </style>
 </head>
 <body>
@@ -82,12 +99,14 @@
 
 <form class="pure-form" name="query" onsubmit="查詢(); return false">
   <div class="query-container">
-    <span>根據</span>
-    <select name="查詢方式" onchange="this.form.elements['用户輸入'].value = 佔位符(this.value)">
-      <option>音韻表達式</option>
-      <option>音韻描述</option>
-    </select>
-    <span>查字</span>
+    <div class="query-select">
+      <span>根據</span>
+      <select name="查詢方式" onchange="this.form.elements['用户輸入'].value = 佔位符(this.value)">
+        <option>音韻表達式</option>
+        <option>音韻描述</option>
+      </select>
+      <span>查字</span>
+    </div>
     <input name="用户輸入" type="text" value="冬韻 平聲"/>
     <input class="pure-button" type="submit" value="查詢"/>
   </div>
@@ -105,7 +124,7 @@
   <label class="pure-radio"><input type="radio" name="顯示哪些字" onchange="查詢()" value="顯示所有字"/>顯示所有字</label>
 </form>
 
-<p><output id="outputArea"></output></p>
-<p><output id="errorArea" lang="en-x-code"></output></p>
+<output id="outputArea"></output>
+<output id="errorArea" lang="en-x-code"></output>
 </body>
 </html>
