@@ -100,3 +100,8 @@ output {
 .hidden {
     display: none;
 }
+
+.invalid {
+    color: #ff0032;
+    border-color: #ff0032 !important;
+}

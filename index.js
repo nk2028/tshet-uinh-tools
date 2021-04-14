@@ -57,6 +57,7 @@ function 查詢() {
 	const 用户輸入 = document.forms['query'].elements['用户輸入'].value.trim();
 
 	document.getElementById('outputArea').innerHTML = '';
+	document.querySelector('input[name="用户輸入"]').classList.remove('invalid')
 
 	try {
 		const 音韻地位們 = 查詢音韻地位[查詢方式](用户輸入);
@@ -83,6 +84,7 @@ function 查詢() {
 		document.getElementById('errorArea').innerText = '';
 	} catch (err) {
 		document.getElementById('outputArea').innerHTML = '';
+		document.querySelector('input[name="用户輸入"]').classList.add('invalid')
 		document.getElementById('errorArea').innerText = `${err}\n${err.stack}`;
 	}
 }
