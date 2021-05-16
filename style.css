@@ -75,14 +75,12 @@ ul.tips b { border-bottom: 1px solid; }
 /* Outputs */
 output { 
     margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: block;
     max-width: 45rem;
 }
 
 #outputArea .char {
-    display: block;
+    display: inline;
     margin: 0 0.3rem;
 }
 #errorArea { color: #ff0032; }
