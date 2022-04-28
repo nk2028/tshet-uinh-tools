@@ -39,7 +39,7 @@ const errorArea = document.getElementById('errorArea');
 const 查詢音韻地位 = {
 	'音韻表達式': (用户輸入) => {
 		let 音韻地位們 = [];
-		for (const 音韻地位 of Qieyun.iter音韻地位()) {
+		for (const 音韻地位 of Qieyun.資料.iter音韻地位()) {
 			if (音韻地位.屬於(用户輸入)) {
 				音韻地位們.push(音韻地位);
 			}
@@ -64,10 +64,11 @@ function 查詢() {
 
 		const 結果 = new Set();
 		for (const 音韻地位 of 音韻地位們) {
-			if (顯示哪些字 === '一個音韻地位只顯示一個代表字' && 音韻地位.代表字 != null) {
-				結果.add(音韻地位.代表字);
+			const 條目 = Qieyun.資料.query音韻地位(音韻地位);
+			if (顯示哪些字 === '一個音韻地位只顯示一個代表字' && 條目.length) {
+				結果.add(條目[0].字頭);
 			} else {
-				for (const { 字頭 } of 音韻地位.條目) {
+				for (const { 字頭 } of 條目) {
 					if (顯示哪些字 === '顯示所有字' || 常見字.has(字頭)) {
 						結果.add(字頭);
 					}
