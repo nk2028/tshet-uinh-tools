@@ -7,20 +7,20 @@ function hideLoadingOverlay() {
 let 常見字 = new Set();
 let 常見字頻序 = {};
 
-fetch('https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/%E5%B8%B8%E7%94%A8%E5%AD%97%E9%A0%BB%E5%BA%8F%E8%A1%A8.txt')
-	.then((response) => response.text())
-	.then((text) => {
-		[...text].forEach((字, 頻序) => {
-			常見字.add(字);
-			常見字頻序[字] = 頻序;
-		});
-	})
-	.catch((err) => {
-		alert(err);
-	})
-	.finally(() => {
-		hideLoadingOverlay();
-	});
+Promise.allSettled([
+	fetch('https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/%E5%B8%B8%E7%94%A8%E5%AD%97%E9%A0%BB%E5%BA%8F%E8%A1%A8.txt')
+		.then((response) => response.text())
+		.then((text) => {
+			[...text].forEach((字, 頻序) => {
+				常見字.add(字);
+				常見字頻序[字] = 頻序;
+			});
+		})
+		.catch((err) => {
+			alert(err);
+		}),
+	new Promise((resolve) => window.addEventListener('load', () => resolve(), { once: true})),
+]).then(() => void hideLoadingOverlay());
 
 function 創建單字HTML(字頭) {
 	const a = document.createElement('a');
@@ -33,8 +33,8 @@ function 創建單字HTML(字頭) {
 
 const cmp = (a, b) => (常見字頻序[a] || 99999) - (常見字頻序[b] || 99999);
 
-const outputArea = document.getElementById('outputArea');
-const errorArea = document.getElementById('errorArea');
+//const outputArea = document.getElementById('outputArea');
+//const errorArea = document.getElementById('errorArea');
 
 const 查詢音韻地位 = {
 	'音韻表達式': (用户輸入) => {
