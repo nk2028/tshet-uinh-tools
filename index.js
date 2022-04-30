@@ -1,5 +1,8 @@
 'use strict';
 
+// --------
+// Initialization
+
 function hideLoadingOverlay() {
 	document.querySelector('#loading-overlay').classList.add('hidden');
 }
@@ -20,21 +23,73 @@ Promise.allSettled([
 			alert(err);
 		}),
 	new Promise((resolve) => window.addEventListener('load', () => resolve(), { once: true})),
-]).then(() => void hideLoadingOverlay());
+]).then(() => {
+	new ResizeObserver(() => {
+		displayResult();
+	}).observe(document.getElementById('outputArea'));
+	hideLoadingOverlay();
+});
+
+// --------
+// Display
 
 function 創建單字HTML(字頭) {
 	const a = document.createElement('a');
 	a.classList.add('char');
-	a.target = '_blank';
-	a.href = `https://ytenx.org/zim?dzih=${encodeURIComponent(字頭)}&dzyen=1`;
+	//a.target = '_blank';
+	//a.href = `https://ytenx.org/zim?dzih=${encodeURIComponent(字頭)}&dzyen=1`;
+	a.onclick = () => console.log(`# click: ${字頭}`);
 	a.innerText = 字頭;
 	return a;
 }
 
-const cmp = (a, b) => (常見字頻序[a] || 99999) - (常見字頻序[b] || 99999);
+const queryResult = { 字頭: [], elems: [], charsPerLine: null };
 
-//const outputArea = document.getElementById('outputArea');
-//const errorArea = document.getElementById('errorArea');
+function setResult(字頭結果) {
+	queryResult.字頭 = 字頭結果;
+	queryResult.elems = [];
+	for (const 字頭 of 字頭結果) {
+		const a = 創建單字HTML(字頭);
+		queryResult.elems.push(a);
+	}
+	displayResult(true);
+}
+
+function displayResult(force = false) {
+	const outputArea = document.getElementById('outputArea');
+	if (!queryResult.elems.length) {
+		outputArea.innerHTML = '';
+		return;
+	}
+
+	const lineWidth = outputArea.getBoundingClientRect().width;
+	const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+	const charsPerLine = Math.max(Math.floor(lineWidth / (1.6 * rem)), 1);
+	if (queryResult.charsPerLine === charsPerLine && !force) {
+		return;
+	}
+	queryResult.charsPerLine = charsPerLine;
+
+	outputArea.innerHTML = '';
+	const fragment = document.createDocumentFragment();
+	let line = null;
+	queryResult.elems.forEach((a, i) => {
+		if (i % charsPerLine === 0) {
+			if (line) {
+				fragment.appendChild(line);
+			}
+			line = document.createElement('div');
+		}
+		line.appendChild(a);
+	});
+	fragment.appendChild(line);
+	outputArea.appendChild(fragment);
+}
+
+// --------
+// Query
+
+const cmp = (a, b) => (常見字頻序[a] || 99999) - (常見字頻序[b] || 99999);
 
 const 查詢音韻地位 = {
 	'音韻表達式': (用户輸入) => {
@@ -76,12 +131,7 @@ function 查詢() {
 			}
 		}
 
-		const fragment = document.createDocumentFragment();
-		for (const 字頭 of [...結果].sort(cmp)) {
-			fragment.appendChild(創建單字HTML(字頭));
-		}
-		
-		document.getElementById('outputArea').appendChild(fragment);
+		setResult([...結果].sort(cmp));
 		document.getElementById('errorArea').innerText = '';
 	} catch (err) {
 		document.getElementById('outputArea').innerHTML = '';
