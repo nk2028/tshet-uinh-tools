@@ -76,12 +76,15 @@ ul.tips b { border-bottom: 1px solid; }
 output { 
     margin-top: 1rem;
     display: block;
+    width: 100%;
     max-width: 45rem;
 }
 
 #outputArea .char {
-    display: inline;
+    display: inline-block;
+    width: 1rem;
     margin: 0 0.3rem;
+    text-align: center;
 }
 #errorArea { color: #ff0032; }
 
