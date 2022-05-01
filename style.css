@@ -65,11 +65,36 @@ ul.tips b { border-bottom: 1px solid; }
     .query-container input[type="submit"] { min-width: min(20rem, 100vw - 5rem); }
 }
 
-.radio-container { display: flex; user-select: none; }
+.radio-container { display: flex; user-select: none; align-items: baseline; }
 .radio-container label { margin: 0 0.2rem; }
 .radio-container [type="radio"] { margin: 0 0.3rem; }
 @media only screen and (max-width: 720px) {
     .radio-container { flex-direction: column; }
+}
+
+.copyButton {
+    position: relative;
+}
+.popup {
+    position: absolute;
+    z-index: 1;
+    width: 5rem;
+    margin-left: -2.5rem;
+    left: 50%;
+    top: 95%;
+    background-color: lightgoldenrodyellow;
+    padding: 0.2rem;
+    border-radius: 8px;
+}
+.popup::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -0.5rem;
+    border-width: 0.5rem;
+    border-style: solid;
+    border-color: transparent transparent lightgoldenrodyellow transparent;
 }
 
 /* Outputs */

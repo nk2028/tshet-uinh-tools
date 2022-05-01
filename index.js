@@ -35,6 +35,64 @@ Promise.allSettled([
 });
 
 // --------
+// Clipboard
+
+let popupChannel = null;
+
+function copySuccess() {
+	const popup = document.getElementById('copyPopup');
+	popup.classList.remove('hidden');
+	if (popupChannel !== null) {
+		clearInterval(popupChannel);
+	}
+	popupChannel = setTimeout(() => {
+		popupChannel = null;
+		popup.classList.add('hidden');
+	}, 2000);
+}
+
+function onClickPopup(event) {
+	const popup = document.getElementById('copyPopup');
+	clearTimeout(popupChannel);
+	popup.classList.add('hidden');
+	event.stopPropagation();
+}
+
+function copyFailed() {
+	alert('無法複製至剪貼簿');
+}
+
+function copyFallback(str) {
+	const textArea = document.createElement("textarea");
+	textArea.value = str;
+	textArea.style.position = "fixed";
+	document.body.appendChild(textArea);
+	textArea.focus();
+	textArea.select();
+	try {
+		document.execCommand("copy") ? copySuccess() : copyFailed();
+	} catch (err) {
+		copyFailed();
+	}
+	document.body.removeChild(textArea);
+}
+
+function copyToClipboard(str) {
+	if (navigator.clipboard) {
+		navigator.clipboard.writeText(str).then(
+			() => void copySuccess(),
+			() => void copyFallback(str)
+		);
+	} else {
+		copyFallback(str);
+	}
+}
+
+function onClickCopy() {
+	copyToClipboard(queryResult.字頭.join(''));
+}
+
+// --------
 // Display
 
 function 創建單字HTML(字頭, index) {

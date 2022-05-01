@@ -55,6 +55,10 @@
   <label class="pure-radio"><input type="radio" name="顯示哪些字" onchange="查詢()" value="只顯示常用字" checked="checked"/>只顯示常用字</label>
   <label class="pure-radio"><input type="radio" name="顯示哪些字" onchange="查詢()" value="一個音韻地位只顯示一個代表字"/>一個音韻地位只顯示一個代表字</label>
   <label class="pure-radio"><input type="radio" name="顯示哪些字" onchange="查詢()" value="顯示所有字"/>顯示所有字</label>
+  <button class="pure-button copyButton" onclick="onClickCopy()" >
+    複製所有字到剪貼簿
+    <span id="copyPopup" class="popup hidden" onclick="onClickPopup(event)">已複製</span>
+  </button>
 </form>
 
 <output id="outputArea"></output>
