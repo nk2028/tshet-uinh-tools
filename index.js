@@ -33,12 +33,12 @@ Promise.allSettled([
 // --------
 // Display
 
-function 創建單字HTML(字頭) {
+function 創建單字HTML(字頭, index) {
 	const a = document.createElement('a');
 	a.classList.add('char');
 	//a.target = '_blank';
 	//a.href = `https://ytenx.org/zim?dzih=${encodeURIComponent(字頭)}&dzyen=1`;
-	a.onclick = () => console.log(`# click: ${字頭}`);
+	a.onclick = () => console.log(`# click: ${字頭} (#${index})`);
 	a.innerText = 字頭;
 	return a;
 }
@@ -48,10 +48,10 @@ const queryResult = { 字頭: [], elems: [], charsPerLine: null };
 function setResult(字頭結果) {
 	queryResult.字頭 = 字頭結果;
 	queryResult.elems = [];
-	for (const 字頭 of 字頭結果) {
-		const a = 創建單字HTML(字頭);
+	字頭結果.forEach((字頭, i) => {
+		const a = 創建單字HTML(字頭, i);
 		queryResult.elems.push(a);
-	}
+	});
 	displayResult(true);
 }
 
