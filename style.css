@@ -80,18 +80,21 @@ output {
     width: 100%;
     max-width: 45rem;
 }
-
-.line {
+#outputArea .line {
     margin: 0;
     border: 0;
     padding: 0;
 }
-
 #outputArea .char {
     display: inline-block;
     width: 1rem;
     margin: 0 0.3rem;
     text-align: center;
+}
+#outputArea .charInfo {
+    background-color: #ccc;
+    width: 100%;
+    min-height: 1rem;
 }
 #errorArea { color: #ff0032; }
 

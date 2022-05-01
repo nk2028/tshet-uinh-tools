@@ -10,6 +10,8 @@ function hideLoadingOverlay() {
 let 常見字 = new Set();
 let 常見字頻序 = {};
 
+let domInfo = {};
+
 Promise.allSettled([
 	fetch('https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/%E5%B8%B8%E7%94%A8%E5%AD%97%E9%A0%BB%E5%BA%8F%E8%A1%A8.txt')
 		.then((response) => response.text())
@@ -24,6 +26,8 @@ Promise.allSettled([
 		}),
 	new Promise((resolve) => window.addEventListener('load', () => resolve(), { once: true})),
 ]).then(() => {
+	const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+	domInfo.charWidth = 1.6 * rem;
 	new ResizeObserver(() => {
 		displayResult();
 	}).observe(document.getElementById('outputArea'));
@@ -43,6 +47,14 @@ function 創建單字HTML(字頭, index) {
 	return a;
 }
 
+function 創建詳細信息HTML() {
+	const charInfo = document.createElement('div');
+	charInfo.id = 'charInfo';
+	charInfo.classList.add('charInfo', 'hidden');
+	charInfo.innerText = '詳細信息測試';
+	return charInfo;
+}
+
 const queryResult = { 字頭: [], elems: [], charsPerLine: null };
 
 function setResult(字頭結果) {
@@ -50,9 +62,26 @@ function setResult(字頭結果) {
 	queryResult.elems = [];
 	字頭結果.forEach((字頭, i) => {
 		const a = 創建單字HTML(字頭, i);
+		a.onclick = () => toggleCharInfo(i);
 		queryResult.elems.push(a);
 	});
 	displayResult(true);
+}
+
+function toggleCharInfo(index) {
+	let charInfo = document.getElementById('charInfo');
+	if (!charInfo) {
+		charInfo = 創建詳細信息HTML();
+		outputArea.appendChild(charInfo);
+	}
+	if (charInfo.dataset.current === index.toString()) {
+		charInfo.classList.toggle('hidden');
+	} else {
+		charInfo.dataset.current = index.toString();
+		charInfo.innerText = `當前顯示：#${index}（${queryResult.字頭[index]}）`;
+		charInfo.style.order = Math.floor(index / queryResult.charsPerLine);
+		charInfo.classList.remove('hidden');
+	}
 }
 
 function displayResult(force = false) {
@@ -63,12 +92,13 @@ function displayResult(force = false) {
 	}
 
 	const lineWidth = outputArea.getBoundingClientRect().width;
-	const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-	const charsPerLine = Math.max(Math.floor(lineWidth / (1.6 * rem)), 1);
+	const charsPerLine = Math.max(Math.floor(lineWidth / domInfo.charWidth), 1);
 	if (queryResult.charsPerLine === charsPerLine && !force) {
 		return;
 	}
 	queryResult.charsPerLine = charsPerLine;
+
+	const charInfo = force ? null : document.getElementById('charInfo');
 
 	outputArea.innerHTML = '';
 	const fragment = document.createDocumentFragment();
@@ -86,6 +116,16 @@ function displayResult(force = false) {
 	});
 	fragment.appendChild(line);
 	outputArea.appendChild(fragment);
+	if (charInfo) {
+		if (charInfo.dataset.current) {
+			charInfo.style.order = Math.floor(
+				parseInt(charInfo.dataset.current) / charsPerLine
+			);
+		}
+		outputArea.appendChild(charInfo);
+	} else {
+		outputArea.appendChild(創建詳細信息HTML());
+	}
 }
 
 // --------
