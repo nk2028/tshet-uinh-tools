@@ -45,17 +45,59 @@ function 創建單字HTML(字頭, index) {
 	return a;
 }
 
-function 創建詳細信息HTML() {
+function 創建條目fragment(字頭) {
+	const fragment = document.createDocumentFragment();
+	const by地位 = new Map();
+	for (const 條目 of Qieyun.資料.query字頭(字頭)) {
+		const key = 條目.音韻地位.描述;
+		if (!by地位.has(key)) {
+			by地位.set(key, []);
+		}
+		by地位.get(key).push(條目);
+	}
+	
+	const tabs = fragment.appendChild(document.createElement('div'));
+	tabs.classList.add('tabs');
+	const pages = fragment.appendChild(document.createElement('div'));
+	pages.classList.add('pages');
+
+	Array.from(by地位).forEach(([描述, 條目s], i) => {
+		const tab = tabs.appendChild(document.createElement('button'));
+		tab.classList.add('tab');
+		tab.innerText = 描述;
+
+		const page = pages.appendChild(document.createElement('div'));
+		page.classList.add('page');
+		if (i !== 0) {
+			page.classList.add('hidden');
+		}
+		for (const 條目 of 條目s) {
+			const div = page.appendChild(document.createElement('div'));
+			div.classList.add('pageItem');
+			const { 反切: 反切_, 解釋 } = 條目;
+			const 反切 = 反切_ ? 反切_ + '切' : '';
+			div.innerText = `${反切} ${解釋}`;
+		}
+
+		tab.onclick = () => pages.childNodes.forEach(
+			p => p.classList.toggle('hidden', p !== page)
+		);
+	});
+
+	return fragment;
+}
+
+function 創建詳細信息HTML(字頭) {
 	const charInfo = document.createElement('div');
 	charInfo.id = 'charInfo';
 	charInfo.classList.add('charInfo', 'hidden');
 	charInfo.innerHTML = '<div id="infoArrow" class="arrow"></div>';
 
-	const infoMain = document.createElement('div');
-	infoMain.id = 'infoMain';
-	infoMain.classList.add('main');
-	infoMain.innerText = '詳細信息測試';
-	charInfo.appendChild(infoMain);
+	const main = document.createElement('div');
+	charInfo.appendChild(main);
+	main.id = 'infoMain';
+	main.classList.add('main');
+	main.appendChild(創建條目fragment(字頭));
 
 	return charInfo;
 }
@@ -91,8 +133,9 @@ function toggleCharInfo(index) {
 		charInfo.classList.remove('hidden');
 		positionCharInfo(charInfo, index);
 
-		const infoMain = document.getElementById('infoMain');
-		infoMain.innerText = `當前顯示：#${index}（${queryResult.字頭[index]}）`;
+		const main = document.getElementById('infoMain');
+		main.innerHTML = '';
+		main.appendChild(創建條目fragment(queryResult.字頭[index]));
 	}
 }
 
