@@ -79,6 +79,8 @@ function displayResult(force = false) {
 				fragment.appendChild(line);
 			}
 			line = document.createElement('div');
+			line.classList.add('line');
+			line.style.order = i / charsPerLine;
 		}
 		line.appendChild(a);
 	});
