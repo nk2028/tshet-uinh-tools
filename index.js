@@ -38,11 +38,11 @@ Promise.allSettled([
 // Display
 
 function 創建單字HTML(字頭, index) {
-	const a = document.createElement('button');
-	a.classList.add('char');
-	a.onclick = () => console.log(`# click: ${字頭} (#${index})`);
-	a.innerText = 字頭;
-	return a;
+	const char = document.createElement('button');
+	char.classList.add('char');
+	char.onclick = () => toggleCharInfo(index);
+	char.innerText = 字頭;
+	return char;
 }
 
 function 創建條目fragment(字頭) {
@@ -115,7 +115,6 @@ function setResult(字頭結果) {
 	queryResult.elems = [];
 	字頭結果.forEach((字頭, i) => {
 		const a = 創建單字HTML(字頭, i);
-		a.onclick = () => toggleCharInfo(i);
 		queryResult.elems.push(a);
 	});
 	displayResult(true);
