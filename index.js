@@ -113,7 +113,7 @@ function 創建條目fragment(字頭) {
 		}
 		by地位.get(key).push(條目);
 	}
-	
+
 	const tabs = fragment.appendChild(document.createElement('div'));
 	tabs.classList.add('tabs', 'pure-button-group');
 	const pages = fragment.appendChild(document.createElement('div'));
