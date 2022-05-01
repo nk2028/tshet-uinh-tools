@@ -80,6 +80,7 @@ output {
     width: 100%;
     max-width: 45rem;
 }
+
 #outputArea .line {
     margin: 0;
     border: 0;
@@ -91,11 +92,26 @@ output {
     margin: 0 0.3rem;
     text-align: center;
 }
-#outputArea .charInfo {
+
+.charInfo {
+    width: 100%;
+}
+.charInfo .arrow {
+    width: 0;
+    height: 0;
+    padding: 0;
+    border-bottom: 0.4rem solid #ccc;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    margin: 0 0.3rem;
+    position: relative;
+}
+.charInfo .main {
     background-color: #ccc;
     width: 100%;
     min-height: 1rem;
 }
+
 #errorArea { color: #ff0032; }
 
 #loading-overlay {

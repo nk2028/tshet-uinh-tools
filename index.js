@@ -51,7 +51,14 @@ function 創建詳細信息HTML() {
 	const charInfo = document.createElement('div');
 	charInfo.id = 'charInfo';
 	charInfo.classList.add('charInfo', 'hidden');
-	charInfo.innerText = '詳細信息測試';
+	charInfo.innerHTML = '<div id="infoArrow" class="arrow"></div>';
+
+	const infoMain = document.createElement('div');
+	infoMain.id = 'infoMain';
+	infoMain.classList.add('main');
+	infoMain.innerText = '詳細信息測試';
+	charInfo.appendChild(infoMain);
+
 	return charInfo;
 }
 
@@ -68,6 +75,11 @@ function setResult(字頭結果) {
 	displayResult(true);
 }
 
+function positionCharInfo(charInfo, index) {
+	charInfo.style.order = Math.floor(index / queryResult.charsPerLine);
+	charInfo.firstChild.style.left = (index % queryResult.charsPerLine) * domInfo.charWidth + 'px';
+}
+
 function toggleCharInfo(index) {
 	let charInfo = document.getElementById('charInfo');
 	if (!charInfo) {
@@ -78,9 +90,11 @@ function toggleCharInfo(index) {
 		charInfo.classList.toggle('hidden');
 	} else {
 		charInfo.dataset.current = index.toString();
-		charInfo.innerText = `當前顯示：#${index}（${queryResult.字頭[index]}）`;
-		charInfo.style.order = Math.floor(index / queryResult.charsPerLine);
 		charInfo.classList.remove('hidden');
+		positionCharInfo(charInfo, index);
+
+		const infoMain = document.getElementById('infoMain');
+		infoMain.innerText = `當前顯示：#${index}（${queryResult.字頭[index]}）`;
 	}
 }
 
@@ -118,9 +132,7 @@ function displayResult(force = false) {
 	outputArea.appendChild(fragment);
 	if (charInfo) {
 		if (charInfo.dataset.current) {
-			charInfo.style.order = Math.floor(
-				parseInt(charInfo.dataset.current) / charsPerLine
-			);
+			positionCharInfo(charInfo, parseInt(charInfo.dataset.current));
 		}
 		outputArea.appendChild(charInfo);
 	} else {
