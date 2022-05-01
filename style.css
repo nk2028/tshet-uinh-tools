@@ -90,6 +90,9 @@ output {
     display: inline-block;
     width: 1rem;
     margin: 0 0.3rem;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
     text-align: center;
 }
 

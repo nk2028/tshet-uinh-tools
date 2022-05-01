@@ -38,10 +38,8 @@ Promise.allSettled([
 // Display
 
 function 創建單字HTML(字頭, index) {
-	const a = document.createElement('a');
+	const a = document.createElement('button');
 	a.classList.add('char');
-	//a.target = '_blank';
-	//a.href = `https://ytenx.org/zim?dzih=${encodeURIComponent(字頭)}&dzyen=1`;
 	a.onclick = () => console.log(`# click: ${字頭} (#${index})`);
 	a.innerText = 字頭;
 	return a;
