@@ -103,16 +103,25 @@ output {
     width: 0;
     height: 0;
     padding: 0;
-    border-bottom: 0.4rem solid #ccc;
-    border-left: 0.5rem solid transparent;
-    border-right: 0.5rem solid transparent;
+    border-bottom: 0.6rem solid #d7d7d7;
+    border-left: 0.6rem solid transparent;
+    border-right: 0.6rem solid transparent;
     margin: 0 0.3rem;
     position: relative;
 }
-.charInfo .main {
-    background-color: #ccc;
+.infoMain {
+    background-color: #d7d7d7;
     width: 100%;
     min-height: 1rem;
+}
+.infoMain .tab {
+    padding: 0.25em 0.5em;
+}
+.infoMain .pages {
+    padding: 0.5em 0;
+}
+.infoMain .page {
+    margin: 0;
 }
 
 #errorArea { color: #ff0032; }

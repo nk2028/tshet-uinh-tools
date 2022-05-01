@@ -57,31 +57,37 @@ function 創建條目fragment(字頭) {
 	}
 	
 	const tabs = fragment.appendChild(document.createElement('div'));
-	tabs.classList.add('tabs');
+	tabs.classList.add('tabs', 'pure-button-group');
 	const pages = fragment.appendChild(document.createElement('div'));
 	pages.classList.add('pages');
 
 	Array.from(by地位).forEach(([描述, 條目s], i) => {
 		const tab = tabs.appendChild(document.createElement('button'));
-		tab.classList.add('tab');
+		tab.classList.add('tab', 'pure-button');
+		if (i === 0) {
+			tab.classList.add('pure-button-active');
+		}
 		tab.innerText = 描述;
 
-		const page = pages.appendChild(document.createElement('div'));
+		const page = pages.appendChild(document.createElement('ul'));
 		page.classList.add('page');
 		if (i !== 0) {
 			page.classList.add('hidden');
 		}
 		for (const 條目 of 條目s) {
-			const div = page.appendChild(document.createElement('div'));
-			div.classList.add('pageItem');
+			const item = page.appendChild(document.createElement('li'));
+			item.classList.add('pageItem');
 			const { 反切: 反切_, 解釋 } = 條目;
 			const 反切 = 反切_ ? 反切_ + '切' : '';
-			div.innerText = `${反切} ${解釋}`;
+			item.innerText = `${反切} ${解釋}`;
 		}
 
-		tab.onclick = () => pages.childNodes.forEach(
-			p => p.classList.toggle('hidden', p !== page)
-		);
+		tab.onclick = () => {
+			pages.childNodes.forEach((p, i) => {
+				p.classList.toggle('hidden', p !== page);
+				tabs.childNodes[i].classList.toggle('pure-button-active', p === page);
+			});
+		};
 	});
 
 	return fragment;
@@ -96,7 +102,7 @@ function 創建詳細信息HTML(字頭) {
 	const main = document.createElement('div');
 	charInfo.appendChild(main);
 	main.id = 'infoMain';
-	main.classList.add('main');
+	main.classList.add('infoMain');
 	main.appendChild(創建條目fragment(字頭));
 
 	return charInfo;
