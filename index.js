@@ -37,23 +37,23 @@ Promise.allSettled([
 // --------
 // Clipboard
 
-let popupChannel = null;
+let popupTimeout = null;
 
 function copySuccess() {
 	const popup = document.getElementById('copyPopup');
 	popup.classList.remove('hidden');
-	if (popupChannel !== null) {
-		clearInterval(popupChannel);
+	if (popupTimeout !== null) {
+		clearInterval(popupTimeout);
 	}
-	popupChannel = setTimeout(() => {
-		popupChannel = null;
+	popupTimeout = setTimeout(() => {
+		popupTimeout = null;
 		popup.classList.add('hidden');
 	}, 2000);
 }
 
 function onClickPopup(event) {
 	const popup = document.getElementById('copyPopup');
-	clearTimeout(popupChannel);
+	clearTimeout(popupTimeout);
 	popup.classList.add('hidden');
 	event.stopPropagation();
 }
