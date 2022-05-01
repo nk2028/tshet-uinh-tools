@@ -54,7 +54,10 @@ ul.tips b { border-bottom: 1px solid; }
     margin: 0;
 }
 .query-container input[type="submit"] { width: 5rem; }
-.query-container input[type="text"] { min-width: min(20rem, 100vw - 5rem); }
+.query-container input[type="text"] {
+    min-width: min(20rem, 100vw - 5rem);
+    max-width: calc(100vw - 5rem);
+}
 @media only screen and (max-width: 720px) {
     .query-container span { display: none; }
     .query-container input, .query-container select { margin: 0.5rem; } 
