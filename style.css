@@ -153,6 +153,9 @@ output {
 .infoMain .page {
     margin: 0;
 }
+.infoMain .links {
+    padding: 0.25em;
+}
 
 #errorArea { color: #ff0032; }
 

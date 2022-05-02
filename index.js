@@ -148,6 +148,13 @@ function 創建條目fragment(字頭) {
 		};
 	});
 
+	const links = fragment.appendChild(document.createElement('div'));
+	links.classList.add('links');
+	const linkYtenx = links.appendChild(document.createElement('a'));
+	linkYtenx.innerText = `在韻典網查詢「${字頭}」字`
+	linkYtenx.target = '_blank';
+	linkYtenx.href = `https://ytenx.org/zim?dzih=${encodeURIComponent(字頭)}&dzyen=1`;
+
 	return fragment;
 }
 
@@ -157,8 +164,7 @@ function 創建詳細信息HTML(字頭) {
 	charInfo.classList.add('charInfo', 'hidden');
 	charInfo.innerHTML = '<div id="infoArrow" class="arrow"></div>';
 
-	const main = document.createElement('div');
-	charInfo.appendChild(main);
+	const main = charInfo.appendChild(document.createElement('div'));
 	main.id = 'infoMain';
 	main.classList.add('infoMain');
 	main.appendChild(創建條目fragment(字頭));
