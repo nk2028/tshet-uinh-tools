@@ -135,9 +135,9 @@ function 創建條目fragment(字頭) {
 		for (const 條目 of 條目s) {
 			const item = page.appendChild(document.createElement('li'));
 			item.classList.add('pageItem');
-			const { 反切: 反切_, 解釋 } = 條目;
+			const { 反切: 反切_, 解釋, 韻部原貌 } = 條目;
 			const 反切 = 反切_ ? 反切_ + '切' : '';
-			item.innerText = `${反切} ${解釋}`;
+			item.innerText = `${反切} ${解釋} （《廣韻》${韻部原貌}韻）`;
 		}
 
 		tab.onclick = () => {
