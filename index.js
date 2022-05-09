@@ -39,18 +39,6 @@ Promise.allSettled([
 
 let popupTimeout = null;
 
-function copySuccess() {
-	const popup = document.getElementById('copyPopup');
-	popup.classList.remove('hidden');
-	if (popupTimeout !== null) {
-		clearInterval(popupTimeout);
-	}
-	popupTimeout = setTimeout(() => {
-		popupTimeout = null;
-		popup.classList.add('hidden');
-	}, 2000);
-}
-
 function onClickPopup(event) {
 	const popup = document.getElementById('copyPopup');
 	clearTimeout(popupTimeout);
@@ -58,34 +46,39 @@ function onClickPopup(event) {
 	event.stopPropagation();
 }
 
-function copyFailed() {
-	alert('無法複製至剪貼簿');
-}
-
-function copyFallback(str) {
-	const textArea = document.createElement("textarea");
-	textArea.value = str;
-	textArea.style.position = "fixed";
-	document.body.appendChild(textArea);
-	textArea.focus();
-	textArea.select();
-	try {
-		document.execCommand("copy") ? copySuccess() : copyFailed();
-	} catch (err) {
-		copyFailed();
-	}
-	document.body.removeChild(textArea);
-}
-
-function copyToClipboard(str) {
-	if (navigator.clipboard) {
-		navigator.clipboard.writeText(str).then(
-			() => void copySuccess(),
-			() => void copyFallback(str)
-		);
+async function copyToClipboard(str) {
+	const result = await (async () => {
+		await navigator.clipboard.writeText(str);
+		return true;
+	})().catch(() => {
+		const textArea = document.createElement("textarea");
+		textArea.value = str;
+		textArea.style.position = "fixed";
+		document.body.appendChild(textArea);
+		textArea.focus();
+		textArea.select();
+		try {
+			return document.execCommand("copy");
+		} catch {
+			return false;
+		} finally {
+			document.body.removeChild(textArea);
+		}
+	});
+	if (result) {
+		const popup = document.getElementById('copyPopup');
+		popup.classList.remove('hidden');
+		if (popupTimeout !== null) {
+			clearInterval(popupTimeout);
+		}
+		popupTimeout = setTimeout(() => {
+			popupTimeout = null;
+			popup.classList.add('hidden');
+		}, 2000);
 	} else {
-		copyFallback(str);
+		alert('瀏覽器不支援複製到剪貼簿，操作失敗');
 	}
+	return result;
 }
 
 function onClickCopy() {
