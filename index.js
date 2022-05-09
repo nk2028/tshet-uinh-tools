@@ -24,7 +24,7 @@ Promise.allSettled([
 		.catch((err) => {
 			alert(err);
 		}),
-	new Promise((resolve) => window.addEventListener('load', () => resolve(), { once: true})),
+	new Promise((resolve) => window.addEventListener('load', () => resolve(), { once: true })),
 ]).then(() => {
 	const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
 	domInfo.charWidth = 1.6 * rem;
