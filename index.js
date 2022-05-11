@@ -48,6 +48,8 @@ function onClickPopup(event) {
 
 async function copyToClipboard(str) {
 	const result = await (async () => {
+		// NOTE whole expression wrapped in an async closure, so that it still
+		// catches in case that `navigator.clipboard` does not exist
 		await navigator.clipboard.writeText(str);
 		return true;
 	})().catch(() => {
