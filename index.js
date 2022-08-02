@@ -31,6 +31,10 @@ Promise.allSettled([
 	new ResizeObserver(() => {
 		displayResult();
 	}).observe(document.getElementById('outputArea'));
+	if (typeof Qieyun === 'undefined') {
+		document.querySelector('input[name="用户輸入"]').classList.add('invalid');
+		document.getElementById('errorArea').innerText = `Qieyun.js 載入失敗，請重新載入頁面`;
+	}
 	hideLoadingOverlay();
 });
 
