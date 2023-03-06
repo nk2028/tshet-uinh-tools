@@ -20,6 +20,10 @@ body {
 	padding-top: 1rem;
 	padding-left: 10rem;
 	padding-right: 10rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 @media only screen and (max-width: 1192px) {
 	body {
@@ -27,11 +31,8 @@ body {
 		padding-right: 1rem;
 	}
 }
-body {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+#root {
+	display: contents;
 }
 
 /* Headings */
@@ -173,7 +174,7 @@ ul.tips b {
 
 /* Outputs */
 output {
-	margin-top: 1rem;
+	margin: 1rem 0;
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -237,24 +238,20 @@ output {
 }
 .infoMain .page {
 	margin: 0;
+	padding: 0 1.5rem 0 2.5rem;
 }
 .infoMain .links {
 	padding: 1rem 0.75rem 0.5rem;
 	font-size: 85%;
 }
 
-#errorArea {
-	color: #ff0032;
+.noResult {
+	text-align: center;
+	font-size: 1.25rem;
 }
 
-#loading-overlay {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: 999;
-	background: rgba(255, 255, 255, 0.5);
+#errorArea {
+	color: #ff0032;
 }
 
 .hidden {

@@ -10,7 +10,7 @@ export default forwardRef<
 		charWidth: number;
 		toggleCharInfo: { current: ((i: number) => void) | undefined };
 	}
->(function CharInfo({ 字頭們, 描述們, charsPerLine, charWidth, toggleCharInfo }) {
+>(function CharInfo({ 字頭們, 描述們, charsPerLine, charWidth, toggleCharInfo }, ref) {
 	const [hidden, setHidden] = useState(true);
 	const [index, setIndex] = useState(0);
 	const [tabIndex, setTabIndex] = useState(0);
@@ -50,6 +50,7 @@ export default forwardRef<
 			id="charInfo"
 			className={`charInfo${hidden ? " hidden" : ""}`}
 			style={{ order: Math.floor(index / charsPerLine) }}
+			ref={ref}
 		>
 			<div id="infoArrow" className="arrow" style={{ left: (index % charsPerLine) * charWidth + "px" }}></div>
 			<div id="infoMain" className="infoMain">

@@ -53,7 +53,7 @@ export default memo(
 				);
 			});
 			lines.push(chars);
-			return (
+			return 字頭們.length ? (
 				<output id="outputArea" ref={ref}>
 					{lines.map((chars, order) => (
 						<div key={order} className="line" style={{ order }}>
@@ -68,6 +68,10 @@ export default memo(
 						charWidth={charWidth}
 						toggleCharInfo={toggleCharInfo}
 					/>
+				</output>
+			) : (
+				<output id="outputArea" className="noResult" ref={ref}>
+					無結果
 				</output>
 			);
 		} catch (err) {
