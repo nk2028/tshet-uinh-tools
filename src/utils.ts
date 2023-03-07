@@ -40,6 +40,8 @@ export function* iter描述(音韻地位們: 音韻地位[]) {
 	}
 }
 
+export const 屬性後綴 = new Set("母等韻音攝組聲");
+
 export async function copyToClipboard(str: string, popup: HTMLElement) {
 	const result = await (async () => {
 		// NOTE whole expression wrapped in an async closure, so that it still
