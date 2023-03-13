@@ -59,6 +59,10 @@ ul.tips {
 ul.tips b {
 	border-bottom: 1px solid;
 }
+ul.tips .clickable b:hover {
+	color: #737475;
+	cursor: pointer;
+}
 
 /* Forms */
 .query-container {

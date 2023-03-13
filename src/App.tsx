@@ -1,6 +1,6 @@
-import { ChangeEvent, FormEvent, useCallback, useReducer, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEvent, useCallback, useReducer, useRef, useState } from "react";
 import OutputArea from "./OutputArea";
-import { copyToClipboard, 佔位符, 查詢方式, 顯示哪些字 } from "./utils";
+import { copyToClipboard, 佔位符, 屬性後綴, 查詢方式, 顯示哪些字 } from "./utils";
 
 export default function App() {
 	const [curr查詢方式, setCurr查詢方式] = useState<查詢方式>("音韻表達式");
@@ -43,6 +43,25 @@ export default function App() {
 	);
 	const onForm顯示哪些字Submit = useCallback((event: FormEvent<HTMLFormElement>) => event.preventDefault(), []);
 
+	const 用户輸入Input = useRef<HTMLInputElement>(null!);
+	const onTipsClick = useCallback(({ target }: MouseEvent<HTMLLIElement>) => {
+		const { tagName, textContent } = target as HTMLElement;
+		if (tagName === "B") {
+			const inputElement = 用户輸入Input.current;
+			const { selectionStart, selectionEnd, value } = inputElement;
+
+			let text = value.slice(0, selectionStart || value.length);
+			let textAfterCursor = value.slice(selectionEnd || value.length);
+			if (!屬性後綴.has(textContent!) && text && text.slice(-1) !== " ") text += " ";
+			text += textContent + " ";
+			if (textAfterCursor[0] === " ") textAfterCursor = textAfterCursor.slice(1);
+			set用户輸入((inputElement.value = text + textAfterCursor));
+
+			inputElement.selectionStart = inputElement.selectionEnd = text.length;
+			inputElement.focus();
+		}
+	}, []);
+
 	const on查詢方式Change = useCallback(
 		({ currentTarget: { value } }: ChangeEvent<HTMLSelectElement>) => set查詢方式(value as 查詢方式),
 		[]
@@ -74,14 +93,25 @@ export default function App() {
 						value={用户輸入}
 						className={invalid ? "invalid" : ""}
 						onInput={on用户輸入Input}
+						ref={用户輸入Input}
 					/>
 					<input className="pure-button" type="submit" value="查詢" />
 				</div>
 				<ul className="tips">
-					<li>
+					<li className={查詢方式 === "音韻描述" ? "" : "hidden"}>
+						音韻描述格式必須為：<b>母</b>&#x2002;呼&#x2002;等&#x2002;重紐&#x2002;<b>韻</b>&#x2002;<b>聲</b>
+						，粗體者不可省略（詳見{" "}
+						<a href="https://nk2028.shn.hk/qieyun-js/">
+							<span lang="en-HK">qieyun-js</span>
+						</a>
+						）
+					</li>
+					<li className={查詢方式 === "音韻表達式" ? "clickable" : "hidden"} onClick={onTipsClick}>
 						支援的音韻表達式運算符：幫<b>母</b>、脣<b>音</b>、幫<b>組</b>、<b>開口</b>、<b>合口</b>、<b>開合中立</b>、一
-						<b>等</b>、<b>重紐A類</b>、<b>重紐B類</b>、東<b>韻</b>、通<b>攝</b>、平<b>聲</b>、仄<b>聲</b>、舒<b>聲</b>、
-						<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>或</b>（詳見{" "}
+						<b>等</b>、<b>重紐A類</b>、<b>重紐B類</b>、<b>不分重紐</b>、東<b>韻</b>、通<b>攝</b>、平<b>聲</b>、仄
+						<b>聲</b>、舒<b>聲</b>、<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>清音</b>、<b>濁音</b>、
+						<b>陰聲韻</b>、<b>陽聲韻</b>、<b>入聲韻</b>、<b>輕脣韻</b>、<b>次入韻</b>、<b>且</b>（可省略）、<b>或</b>、
+						<b>非</b>、括號（詳見{" "}
 						<a href="https://nk2028.shn.hk/qieyun-js/">
 							<span lang="en-HK">qieyun-js</span>
 						</a>
