@@ -4,14 +4,41 @@ input {
 }
 
 /* Font Family */
+:lang(zh) {
+    font-family: "Source Han Serif K", "Source Han Serif KR", "Source Han Serif C", "Source Han Serif SC", "Source Han Serif HK", "Source Han Serif TC",
+        "Noto Serif CJK KR", "Noto Serif CJK JP", "Noto Serif CJK SC", "Noto Serif CJK HK", "Noto Serif CJK TC",
+        "Noto Serif KR", "Noto Serif JP", "Noto Serif SC", "Noto Serif HK", "Noto Serif TC",
+	    "HanaMin",
+	    serif;
+	/* font-language-override: "JAN"; */
+    /* font-language-override: "KOR"; */
+}
 :lang(en) {
-	font-family: serif, serif;
+	font-family: "Source Serif",
+	    "Noto Serif",
+		ui-serif,
+	    serif;
 }
 :lang(en-x-code) {
-	font-family: monospace, monospace;
+    font-family: "Source Sans Mono",
+        "Noto Sans Mono",
+		ui-monospace,
+		monospace,
+		"Source Han Sans", "Source Han Sans K", "Source Han Sans KR", "Source Han Sans C", "Source Han Sans SC", "Source Han Sans HK", "Source Han Sans TC",
+	    "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans HK", "Noto Sans TC",
+		ui-sans-serif,
+		sans-serif,
+		"Noto Serif",
+		"Charis SIL", "CharisSILW",
+	    "HanaMin",
+		ui-serif,
+		serif;
+	/* font-language-override: "JAN"; */
+    /* font-language-override: "KOR"; */
 }
-:lang(zh-HK) {
-	font-family: serif, serif, HanaMin, serif;
+:lang(och-Latn-fonipa) {
+    font-family: "Charis SIL", "CharisSILW",
+	ui-sans-serif, serif;
 }
 
 /* Whole Page */
