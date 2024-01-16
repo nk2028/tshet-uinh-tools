@@ -3,7 +3,7 @@ import { forwardRef, memo, useMemo, useRef } from "react";
 import CharInfo from "./CharInfo";
 import { cmp, iter描述, 常見字頻序, 查詢方式, 查詢音韻地位, 顯示哪些字 } from "./utils";
 
-export default memo(
+const OutputArea = memo( // 定義組件名
 	forwardRef<
 		HTMLOutputElement,
 		{
@@ -18,25 +18,26 @@ export default memo(
 	>(function OutputArea({ 查詢方式, 用户輸入, setInvalid, 顯示哪些字, charsPerLine, charWidth, copy字頭 }, ref) {
 		const toggleCharInfo = useRef<(i: number) => void>();
 
-		try {
-			const 音韻地位們 = useMemo(() => 查詢音韻地位[查詢方式](用户輸入), [查詢方式, 用户輸入]);
-			const 字頭們 = useMemo(() => {
-				const 結果 = new Set<string>();
-				for (const 音韻地位 of 音韻地位們) {
-					const 條目 = 資料.query音韻地位(音韻地位);
-					if (顯示哪些字 === "一個音韻地位只顯示一個代表字" && 條目.length) {
-						結果.add(條目[0].字頭);
-					} else {
-						for (const { 字頭 } of 條目) {
-							if (顯示哪些字 === "顯示所有字" || 常見字頻序.has(字頭)) {
-								結果.add(字頭);
-							}
+		// 將 useMemo 移動到組件頂層，並確保依賴項列表完整
+		const 音韻地位們 = useMemo(() => 查詢音韻地位[查詢方式](用户輸入), [查詢方式, 用户輸入]);
+		const 字頭們 = useMemo(() => {
+			const 結果 = new Set<string>();
+			for (const 音韻地位 of 音韻地位們) {
+				const 條目 = 資料.query音韻地位(音韻地位);
+				if (顯示哪些字 === "一個音韻地位只顯示一個代表字" && 條目.length) {
+					結果.add(條目[0].字頭);
+				} else {
+					for (const { 字頭 } of 條目) {
+						if (顯示哪些字 === "顯示所有字" || 常見字頻序.has(字頭)) {
+							結果.add(字頭);
 						}
 					}
 				}
-				return [...結果].sort(cmp);
-			}, [查詢方式, 用户輸入, 顯示哪些字]);
+			}
+			return [...結果].sort(cmp);
+		}, [音韻地位們, 顯示哪些字]); // 添加了缺失的依賴項，移除了 '查詢方式' 和 '用户輸入'
 
+		try {
 			setInvalid(false);
 			const lines: JSX.Element[][] = [];
 			let chars: JSX.Element[] = [];
@@ -80,3 +81,5 @@ export default memo(
 		}
 	})
 );
+
+export default OutputArea; // 導出該組件

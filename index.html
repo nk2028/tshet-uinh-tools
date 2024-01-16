@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+	<head>
+		<link rel="apple-touch-icon" sizes="180x180" href="./public/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./public/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./public/favicon-16x16.png">
+        <link rel="manifest" href="./public/site.webmanifest">
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta property="og:image" content="https://avatars3.githubusercontent.com/u/63484757?s=400&amp;v=4" />
+		<meta property="og:description" content="一個工具令你找到符合音韻地位的所有字 | A tool to find the Chinese characters by phonological expressions" />
+		<meta name="keywords" content="音韻學, 《切韻》音系, 中古音, 查詢器 | historical-linguistics, middle-chinese, tshet-uinh, qieyun" />
+		<title>音韻地位查詢器</title>
+		<script type="module" src="./src/index.tsx"></script>
+		<link rel="preconnect" href="https://fonts.googleapis.cn" crossorigin>
+		<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin>
+		<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&family=Noto+Serif+SC:wght@200;300;400;500;600;700;900&family=Noto+Serif+HK:wght@200;300;400;500;600;700;900&family=Noto+Serif+TC:wght@200;300;400;500;600;700;900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Noto+Sans+KR:wght@100..900&family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+SC:wght@100..900&family=Noto+Sans+HK:wght@100..900&family=Noto+Sans+TC:wght@100..900&Noto+Sans:wght@400&Noto+Sans+Mono:wght@400&family=Noto+Emoji:wght@300..700&family=Noto+Color+Emoji&family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
+		<link rel="preconnect" href="https://code.bdstatic.com" crossorigin>
+		<link rel="stylesheet" href="https://code.bdstatic.com/npm/hanamin@0.0.5/HanaMin.min.css" />
+	</head>
+	<body>
+		<h1>音韻地位查詢器</h1>
+		<ul class="tips">
+			<li>
+				原始碼參見 <a lang="en-US" href="https://github.com/nk2028/qieyun-tools">GitHub</a>，相關工具：<a
+					href="https://nk2028.shn.hk/qieyun-autoderiver/"
+					>推導器</a
+				>
+			</li>
+			<li>注意本查詢器將元韻視為臻攝而非山攝</li>
+			<li>
+				注意以下異體字，在本查詢器中查詢時，須使用右邊的寫法才能使程式正確識別：
+				<ul>
+					<li>唇音→脣音</li>
+					<li>娘母→孃母</li>
+					<li>荘母→莊母</li>
+					<li>谿母→溪母</li>
+					<li>群母→羣母</li>
+					<li>餚韻→肴韻</li>
+					<li>真韻→眞韻</li>
+				</ul>
+			</li>
+			<li>點擊查詢結果的字，可查看其詳細信息</li>
+		</ul>
+		<div id="root"></div>
+	</body>
+</html>

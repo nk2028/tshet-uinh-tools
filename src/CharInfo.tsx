@@ -41,7 +41,7 @@ export default forwardRef<
 	useEffect(() => {
 		const tabIndex = 地位們.findIndex(([描述]) => 描述們.has(描述));
 		setTabIndex(tabIndex === -1 ? 0 : tabIndex);
-	}, [index]);
+	}, [地位們, 描述們, index]);
 
 	const 字頭URI = encodeURIComponent(字頭);
 

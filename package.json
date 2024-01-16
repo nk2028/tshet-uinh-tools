@@ -1,53 +1,46 @@
 {
-	"name": "qieyun-tools",
-	"private": true,
-	"description": "A tool to find the Chinese characters by phonological expressions",
-	"scripts": {
-		"postinstall": "wget -nc 'https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/常用字頻序表.txt'",
-		"start": "parcel src/index.html --open --port 8080",
-		"build": "parcel build src/index.html --public-url /qieyun-tools",
-		"lint": "eslint src"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/nk2028/qieyun-tools.git"
-	},
-	"keywords": [
-		"historical-linguistics",
-		"middle-chinese",
-		"tshet-uinh",
-		"qieyun"
-	],
-	"dependencies": {
-		"purecss": "^2.2.0",
-		"qieyun": "^0.13.4",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
-	},
-	"devDependencies": {
-		"@parcel/transformer-inline-string": "^2.8.3",
-		"@types/react": "^18.0.28",
-		"@types/react-dom": "^18.0.11",
-		"@typescript-eslint/eslint-plugin": "^5.54.0",
-		"@typescript-eslint/parser": "^5.54.0",
-		"eslint": "^8.35.0",
-		"eslint-plugin-react": "^7.32.2",
-		"parcel": "^2.8.3",
-		"process": "^0.11.10",
-		"typescript": "^4.9.5"
-	},
-	"browserslist": {
-		"production": ">0.2% and not dead and supports es6-module",
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"author": "Ngiox Khyen 2028 Project",
-	"license": "CC0-1.0",
-	"bugs": {
-		"url": "https://github.com/nk2028/qieyun-tools/issues"
-	},
-	"homepage": "qieyun-tools/"
+    "name": "qieyun-tools",
+    "author": "Ngiox Khyen 2028 Project",
+    "license": "CC0-1.0",
+    "description": "A tool to find the Chinese characters by phonological expressions | 一個工具令你找到符合音韻地位的所有字",
+    "keywords": [
+        "historical-linguistics", "middle-chinese", "tshet-uinh", "qieyun",
+        "音韻學", "《切韻》音系", "中古音", "查詢器"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nk2028/qieyun-tools.git"
+    },
+    "bugs": {
+        "url": "https://github.com/nk2028/qieyun-tools/issues"
+    },
+    "type": "module",
+    "scripts": {
+        "postinstall": "node ./tools/postinstall.mjs",
+        "dev": "vite",
+        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "build --base=/qieyun-tools/": "tsc && vite build --base=/qieyun-tools/",
+        "build --base=/": "tsc && vite build --base=/",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "homepage": "qieyun-tools/",
+    "dependencies": {
+        "purecss": "^3.0.0",
+        "qieyun": "^0.13.5",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.2.43",
+        "@types/react-dom": "^18.2.17",
+        "@typescript-eslint/eslint-plugin": "^6.14.0",
+        "@typescript-eslint/parser": "^6.14.0",
+        "@vitejs/plugin-react-swc": "^3.5.0",
+        "eslint": "^8.55.0",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.4.5",
+        "typescript": "^5.2.2",
+        "vite": "^5.0.8"
+    }
 }
