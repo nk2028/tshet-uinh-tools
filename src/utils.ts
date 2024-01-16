@@ -1,5 +1,5 @@
-import { 資料, 音韻地位 } from "qieyun";
-import 常用字頻序表 from "bundle-text:../常用字頻序表.txt";
+import { 資料, 音韻地位 } from 'qieyun';
+import 常用字頻序表 from './常用字頻序表.txt?raw';
 
 export const 常見字頻序 = new Map<string, number>();
 

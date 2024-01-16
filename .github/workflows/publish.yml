@@ -1,4 +1,4 @@
-name: Deploy Website
+name: 'Deploy Website | 部署到網站'
 on:
   push:
     branches:
@@ -17,21 +17,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Get Latest Code
-        uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: 'Get Latest Code | 創建工作空間'
+        uses: actions/checkout@v4
+      - name: 'Setup pnpm | 安裝 pnpm'
+        uses: pnpm/action-setup@v2
         with:
-          node-version: "16"
-      - name: Install Dependencies
-        run: npm ci
-      - name: Lint Code
-        run: npm run lint
-      - name: Build Project
-        run: npm run build
-      - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v1
+          version: 8
+      - name: 'Setup Node | 安裝 node.JS'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
+          cache: 'pnpm'
+      - name: 'Install Dependencies | 安裝依賴'
+        run: pnpm install
+      - name: 'Lint Code | 檢查程式碼'
+        run: pnpm run lint
+      - name: 'Build Project | 打包構建'
+        run: pnpm run build
+      - name: 'Upload Artifact | 上傳成果'
+        uses: actions/upload-pages-artifact@v3
         with:
           path: "./dist"
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+      - name: 'Deploy to GitHub Pages | 部署到 GitHub Pages'
+        uses: actions/deploy-pages@v4
