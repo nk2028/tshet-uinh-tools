@@ -15,6 +15,6 @@ If you are debugging, maintaining, or wish to independently deploy on services l
 
 ## 部署說明
 
-本项目採用 Vite 爲打包工具。爲方便部署在 GitHub Pages 及同類型的服務上， `package.json` 與 `vite.config.mts` 默認設置公共路徑爲 `/qieyun-tools/` ，您瀏覽時務必注意 URL 是否爲類似 `website.domain/qieyun-tools/` 的形式。
+本項目採用 Vite 爲打包工具。爲方便部署在 GitHub Pages 及同類型的服務上， `package.json` 與 `vite.config.mts` 默認設置公共路徑爲 `/qieyun-tools/` ，您瀏覽時務必注意 URL 是否爲類似 `website.domain/qieyun-tools/` 的形式。
 
 若您在調試、維護，或想自行部署在 Cloudflare Pages 等默認保存資源在一級路徑 `/` 下的服務，請在打包構建 `run build` 時附上標識參數 `--base=/` ，即 `run build --base=/` ，或修改 `package.json` 與 `vite.config.mts` 中的相關參數亦是可行的方法。如此您就可以直接以域名 `website.domain` 的形式訪問了。
