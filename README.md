@@ -13,7 +13,7 @@ If you are debugging, maintaining, or wish to independently deploy on services l
 
 查詢器地址在 [nk2028.shn.hk/qieyun-tools/](https://nk2028.shn.hk/qieyun-tools/ "音韻地位查詢器") 。
 
-## 部署说明
+## 部署說明
 
 本项目採用 Vite 爲打包工具。爲方便部署在 GitHub Pages 及同類型的服務上， `package.json` 與 `vite.config.mts` 默認設置公共路徑爲 `/qieyun-tools/` ，您瀏覽時務必注意 URL 是否爲類似 `website.domain/qieyun-tools/` 的形式。
 
