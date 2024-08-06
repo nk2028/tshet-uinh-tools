@@ -1,8 +1,9 @@
 import { 資料 } from "qieyun";
 import { forwardRef, memo, useMemo, useRef } from "react";
-import { QueryResult } from "./App";
 import CharInfo from "./CharInfo";
 import { cmp, iter描述, 常見字頻序, 顯示哪些字 } from "./utils";
+
+import type { QueryResult } from "./App";
 
 type Props = {
 	queryResult: QueryResult;
@@ -28,7 +29,7 @@ export default memo(
 			for (const 音韻地位 of 音韻地位們) {
 				const 條目 = 資料.query音韻地位(音韻地位);
 				if (顯示哪些字 === "一個音韻地位只顯示一個代表字" && 條目.length) {
-					結果.add(條目[0].字頭);
+					結果.add(條目.reduce((prev, cur) => cmp(cur.字頭, prev.字頭) < 0 ? cur : prev).字頭);
 				} else {
 					for (const { 字頭 } of 條目) {
 						if (顯示哪些字 === "顯示所有字" || 常見字頻序.has(字頭)) {

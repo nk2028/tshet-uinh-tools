@@ -1,7 +1,8 @@
-import { 音韻地位 } from "qieyun";
 import { ChangeEvent, FormEvent, MouseEvent, useCallback, useReducer, useRef, useState } from "react";
 import OutputArea from "./OutputArea";
 import { copyToClipboard, 佔位符, 屬性後綴, 查詢方式, 查詢音韻地位, 顯示哪些字 } from "./utils";
+
+import type { 音韻地位 } from "qieyun";
 
 interface Query {
 	查詢方式: 查詢方式;
@@ -142,11 +143,17 @@ export default function App() {
 						）
 					</li>
 					<li className={查詢方式 === "音韻表達式" ? "clickable" : "hidden"} onClick={onTipsClick}>
-						支援的音韻表達式運算符：幫<b>母</b>、脣<b>音</b>、幫<b>組</b>、<b>開口</b>、<b>合口</b>、<b>開合中立</b>、一
-						<b>等</b>、<b>重紐A類</b>、<b>重紐B類</b>、<b>不分重紐</b>、東<b>韻</b>、通<b>攝</b>、平<b>聲</b>、仄
-						<b>聲</b>、舒<b>聲</b>、<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>清音</b>、<b>濁音</b>、
-						<b>陰聲韻</b>、<b>陽聲韻</b>、<b>入聲韻</b>、<b>輕脣韻</b>、<b>次入韻</b>、<b>且</b>（可省略）、<b>或</b>、
-						<b>非</b>、括號（詳見{" "}
+						支援的音韻表達式運算符：幫<b>母</b>、脣<b>音</b>、幫<b>組</b>
+						、<b>開口</b>、<b>合口</b>、<b>開合中立</b>
+						、一<b>等</b>
+						、A<b>類</b>、B<b>類</b>、C<b>類</b>、<b>不分類</b>
+						、東<b>韻</b>、通<b>攝</b>
+						、平<b>聲</b>、<b>仄聲</b>、<b>舒聲</b>
+						、<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>清音</b>、<b>濁音</b>
+						、<b>銳音</b>、<b>鈍音</b>
+						、<b>陰聲韻</b>、<b>陽聲韻</b>、<b>入聲韻</b>
+						、<b>次入韻</b>
+						、<b>且</b>（可省略）、<b>或</b>、<b>非</b>、括號（詳見{" "}
 						<a href="https://nk2028.shn.hk/qieyun-js/">
 							<span lang="en-HK">qieyun-js</span>
 						</a>

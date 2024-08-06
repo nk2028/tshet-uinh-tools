@@ -1,4 +1,5 @@
 import { 資料, 音韻地位 } from "qieyun";
+
 import 常用字頻序表 from "../常用字頻序表.txt?raw";
 
 export const 常見字頻序 = new Map<string, number>();
@@ -23,7 +24,7 @@ export const 查詢音韻地位: Record<查詢方式, (用户輸入: string) => 
 		return 音韻地位們;
 	},
 	音韻描述(用户輸入) {
-		return [音韻地位.from描述(用户輸入)];
+		return [音韻地位.from描述(用户輸入, true)];
 	},
 };
 

@@ -26,7 +26,7 @@
 	],
 	"dependencies": {
 		"purecss": "^3.0.0",
-		"qieyun": "^0.13.4",
+		"qieyun": "^0.15.0-beta.2",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1"
 	},

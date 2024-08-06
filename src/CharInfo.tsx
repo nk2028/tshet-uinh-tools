@@ -19,7 +19,7 @@ export default forwardRef<HTMLDivElement, Props>(function CharInfo(
 
 	const 字頭 = 字頭們[index];
 	const 地位們 = useMemo(() => {
-		const by地位 = new Map<string, 資料.字頭檢索結果[]>();
+		const by地位 = new Map<string, 資料.檢索結果[]>();
 
 		for (const 條目 of 資料.query字頭(字頭)) {
 			const key = 條目.音韻地位.描述;
@@ -71,9 +71,12 @@ export default forwardRef<HTMLDivElement, Props>(function CharInfo(
 					{地位們.map(([描述, 條目們], i) => (
 						<ul key={描述} className={`page${i === tabIndex ? "" : " hidden"}`}>
 							{條目們.map(條目 => {
-								const { 反切: 反切_, 解釋, 韻部原貌 } = 條目;
-								const 反切 = 反切_ ? 反切_ + "切" : "";
-								return <li key={解釋} className="pageItem">{`${反切} ${解釋} （《廣韻》${韻部原貌}韻）`}</li>;
+								const { 反切: 反切_, 釋義, 來源 } = 條目;
+								const 反切 = 反切_ ? `${反切_}${來源?.文獻 === "王三" ? "反" : "切"} ` : "";
+								const 來源括註 = 來源 && ["廣韻", "王三"].includes(來源.文獻)
+									? `（《${來源.文獻}》${來源.韻目}韻）`
+									: "";
+								return <li key={i} className="pageItem">{`${反切}${釋義}${來源括註}`}</li>;
 							})}
 						</ul>
 					))}
