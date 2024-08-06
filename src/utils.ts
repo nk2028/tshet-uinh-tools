@@ -1,5 +1,5 @@
 import { 資料, 音韻地位 } from "qieyun";
-import 常用字頻序表 from "bundle-text:../常用字頻序表.txt";
+import 常用字頻序表 from "../常用字頻序表.txt?raw";
 
 export const 常見字頻序 = new Map<string, number>();
 
@@ -65,7 +65,7 @@ export async function copyToClipboard(str: string, popup: HTMLElement) {
 	});
 	if (result) {
 		popup.classList.remove("fade");
-		popup.offsetTop;
+		// popup.offsetTop;  // TODO whet is this line for?
 		popup.classList.add("fade");
 	} else {
 		alert("瀏覽器不支援複製到剪貼簿，操作失敗");

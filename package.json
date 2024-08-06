@@ -2,11 +2,17 @@
 	"name": "qieyun-tools",
 	"private": true,
 	"description": "A tool to find the Chinese characters by phonological expressions",
+	"type": "module",
 	"scripts": {
-		"postinstall": "wget -nc 'https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/常用字頻序表.txt'",
-		"start": "parcel src/index.html --open --port 8080",
-		"build": "parcel build src/index.html --public-url /qieyun-tools",
-		"lint": "eslint src"
+		"postinstall": "curl -sSLO 'https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/常用字頻序表.txt'",
+		"start": "vite src --open --port 8080",
+		"build": "vite build src --outDir ../dist --base /qieyun-tools",
+		"preview": "vite preview --base /qieyun-tools",
+		"lint": "eslint src",
+		"check-format": "dprint check 'src/**/*' --list-different",
+		"fix-format": "dprint fmt 'src/**/*'",
+		"check-types": "tsc --noEmit",
+		"test": "npm run check-format && npm run check-types && npm run lint"
 	},
 	"repository": {
 		"type": "git",
@@ -19,22 +25,27 @@
 		"qieyun"
 	],
 	"dependencies": {
-		"purecss": "^2.2.0",
+		"purecss": "^3.0.0",
 		"qieyun": "^0.13.4",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1"
 	},
 	"devDependencies": {
-		"@parcel/transformer-inline-string": "^2.8.3",
-		"@types/react": "^18.0.28",
-		"@types/react-dom": "^18.0.11",
-		"@typescript-eslint/eslint-plugin": "^5.54.0",
-		"@typescript-eslint/parser": "^5.54.0",
-		"eslint": "^8.35.0",
-		"eslint-plugin-react": "^7.32.2",
-		"parcel": "^2.8.3",
+		"@eslint/eslintrc": "^3.1.0",
+		"@eslint/js": "^9.8.0",
+		"@types/eslint__js": "^8.42.3",
+		"@types/react": "^18.3.3",
+		"@types/react-dom": "^18.3.0",
+		"@typescript-eslint/parser": "^8.0.1",
+		"@vitejs/plugin-react-swc": "^3.7.0",
+		"dprint": "^0.47.2",
+		"eslint": "^9.8.0",
+		"eslint-plugin-react": "^7.35.0",
+		"globals": "^15.9.0",
 		"process": "^0.11.10",
-		"typescript": "^4.9.5"
+		"typescript": "^5.5.4",
+		"typescript-eslint": "^8.0.1",
+		"vite": "^5.3.5"
 	},
 	"browserslist": {
 		"production": ">0.2% and not dead and supports es6-module",

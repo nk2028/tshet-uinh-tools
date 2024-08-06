@@ -1,16 +1,18 @@
 import { 資料 } from "qieyun";
 import { forwardRef, useEffect, useMemo, useState } from "react";
 
-export default forwardRef<
-	HTMLDivElement,
-	{
-		字頭們: string[];
-		描述們: ReadonlySet<string>;
-		charsPerLine: number;
-		charWidth: number;
-		toggleCharInfo: { current: ((i: number) => void) | undefined };
-	}
->(function CharInfo({ 字頭們, 描述們, charsPerLine, charWidth, toggleCharInfo }, ref) {
+type Props = {
+	字頭們: string[];
+	描述們: ReadonlySet<string>;
+	charsPerLine: number;
+	charWidth: number;
+	toggleCharInfo: { current: ((i: number) => void) | undefined };
+};
+
+export default forwardRef<HTMLDivElement, Props>(function CharInfo(
+	{ 字頭們, 描述們, charsPerLine, charWidth, toggleCharInfo }: Props,
+	ref,
+) {
 	const [hidden, setHidden] = useState(true);
 	const [index, setIndex] = useState(0);
 	const [tabIndex, setTabIndex] = useState(0);
@@ -82,14 +84,18 @@ export default forwardRef<
 							href={`https://ytenx.org/zim?dzih=${字頭URI}&dzyen=1`}
 							target="_blank"
 							rel="noreferrer"
-						>{`在韻典網查詢「${字頭}」字`}</a>
+						>
+							{`在韻典網查詢「${字頭}」字`}
+						</a>
 					</div>
 					<div>
 						<a
 							href={`https://zi.tools/zi/${字頭URI}`}
 							target="_blank"
 							rel="noreferrer"
-						>{`在字統網查詢「${字頭}」字`}</a>
+						>
+							{`在字統網查詢「${字頭}」字`}
+						</a>
 					</div>
 				</div>
 			</div>

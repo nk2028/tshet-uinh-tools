@@ -1,7 +1,7 @@
+import { 音韻地位 } from "qieyun";
 import { ChangeEvent, FormEvent, MouseEvent, useCallback, useReducer, useRef, useState } from "react";
 import OutputArea from "./OutputArea";
 import { copyToClipboard, 佔位符, 屬性後綴, 查詢方式, 查詢音韻地位, 顯示哪些字 } from "./utils";
-import { 音韻地位 } from "qieyun";
 
 interface Query {
 	查詢方式: 查詢方式;
@@ -74,7 +74,7 @@ export default function App() {
 			setEdited(false);
 			dispatchQuery({ 查詢方式, 用户輸入 });
 		},
-		[查詢方式, 用户輸入]
+		[查詢方式, 用户輸入],
 	);
 	const onForm顯示哪些字Submit = useCallback((event: FormEvent<HTMLFormElement>) => event.preventDefault(), []);
 
@@ -90,7 +90,7 @@ export default function App() {
 			if (!屬性後綴.has(textContent!) && text && text.slice(-1) !== " ") text += " ";
 			text += textContent + " ";
 			if (textAfterCursor[0] === " ") textAfterCursor = textAfterCursor.slice(1);
-			set用户輸入((inputElement.value = text + textAfterCursor));
+			set用户輸入(inputElement.value = text + textAfterCursor);
 
 			inputElement.selectionStart = inputElement.selectionEnd = text.length;
 			inputElement.focus();
@@ -99,15 +99,15 @@ export default function App() {
 
 	const on查詢方式Change = useCallback(
 		({ currentTarget: { value } }: ChangeEvent<HTMLSelectElement>) => set查詢方式(value as 查詢方式),
-		[]
+		[],
 	);
 	const on用户輸入Input = useCallback(
 		({ currentTarget: { value } }: FormEvent<HTMLInputElement>) => set用户輸入(value),
-		[]
+		[],
 	);
 	const on顯示哪些字Change = useCallback(
 		({ currentTarget: { value } }: ChangeEvent<HTMLInputElement>) => set顯示哪些字(value as 顯示哪些字),
-		[]
+		[],
 	);
 
 	return (
@@ -200,7 +200,8 @@ export default function App() {
 				charWidth={charWidth}
 				copy字頭={copy字頭}
 				ref={observeOutputArea}
-			></OutputArea>
+			>
+			</OutputArea>
 		</>
 	);
 }

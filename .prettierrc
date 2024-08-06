@@ -1,6 +1,0 @@
-{
-	"useTabs": true,
-	"arrowParens": "avoid",
-	"printWidth": 120,
-	"quoteProps": "consistent"
-}
