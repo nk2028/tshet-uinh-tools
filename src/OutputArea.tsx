@@ -13,13 +13,13 @@ type Props = {
 };
 
 export default memo(
-	forwardRef<HTMLOutputElement, Props>(function renderOutputArea(
+	forwardRef<HTMLOutputElement, Props>(function OutputArea(
 		{ queryResult, 顯示哪些字, charsPerLine, charWidth, copy字頭 }: Props,
 		ref,
 	) {
 		const toggleCharInfo = useRef<(i: number) => void>();
 
-		const { 查詢方式, 用户輸入, err, 音韻地位們 } = queryResult;
+		const { err, 音韻地位們 } = queryResult;
 		const 字頭們 = useMemo(() => {
 			if (err) {
 				return [];
@@ -38,7 +38,7 @@ export default memo(
 				}
 			}
 			return [...結果].sort(cmp);
-		}, [查詢方式, 用户輸入, 顯示哪些字]);
+		}, [err, 音韻地位們, 顯示哪些字]);
 
 		if (err) {
 			let message = String(err);

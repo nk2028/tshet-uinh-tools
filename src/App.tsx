@@ -66,7 +66,7 @@ export default function App() {
 
 	const copyPopup = useRef<HTMLSpanElement>(null!);
 	const copy字頭 = useRef("");
-	const onClickCopy = useCallback(() => copyToClipboard(copy字頭.current, copyPopup.current), []);
+	const onClickCopy = useCallback(() => void copyToClipboard(copy字頭.current, copyPopup.current), []);
 
 	const onQuerySubmit = useCallback(
 		(event: FormEvent<HTMLFormElement>) => {

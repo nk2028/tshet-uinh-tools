@@ -43,7 +43,7 @@ export default forwardRef<HTMLDivElement, Props>(function CharInfo(
 	useEffect(() => {
 		const tabIndex = 地位們.findIndex(([描述]) => 描述們.has(描述));
 		setTabIndex(tabIndex === -1 ? 0 : tabIndex);
-	}, [index]);
+	}, [index, 地位們, 描述們]);
 
 	const 字頭URI = encodeURIComponent(字頭);
 
