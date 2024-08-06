@@ -4,16 +4,13 @@
 /node_modules
 /.pnp
 .pnp.js
-*.txt
+/*.txt
 
 # testing
 /coverage
 
 # production
 /dist
-
-# caching
-/.parcel-cache
 
 # misc
 .DS_Store

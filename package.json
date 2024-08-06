@@ -5,9 +5,9 @@
 	"type": "module",
 	"scripts": {
 		"postinstall": "curl -sSLO 'https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/常用字頻序表.txt'",
-		"start": "vite src --open --port 8080",
-		"build": "vite build src --outDir ../dist --base /qieyun-tools",
-		"preview": "vite preview --base /qieyun-tools",
+		"start": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
 		"lint": "eslint src",
 		"check-format": "dprint check 'src/**/*' --list-different",
 		"fix-format": "dprint fmt 'src/**/*'",
