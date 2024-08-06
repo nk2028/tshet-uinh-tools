@@ -1,20 +1,55 @@
 import { ChangeEvent, FormEvent, MouseEvent, useCallback, useReducer, useRef, useState } from "react";
 import OutputArea from "./OutputArea";
-import { copyToClipboard, 佔位符, 屬性後綴, 查詢方式, 顯示哪些字 } from "./utils";
+import { copyToClipboard, 佔位符, 屬性後綴, 查詢方式, 查詢音韻地位, 顯示哪些字 } from "./utils";
+import { 音韻地位 } from "qieyun";
+
+interface Query {
+	查詢方式: 查詢方式;
+	用户輸入: string;
+}
+
+interface Result {
+	err: unknown;
+	音韻地位們: 音韻地位[];
+}
+
+export type QueryResult = Query & Result;
+
+function queryResultReducer(previous: QueryResult, query: Query): QueryResult {
+	if ((["查詢方式", "用户輸入"] as const).every(key => previous[key] === query[key])) {
+		return previous;
+	}
+	let result: Result;
+	try {
+		result = { err: null, 音韻地位們: 查詢音韻地位[query.查詢方式](query.用户輸入) };
+	} catch (err) {
+		result = { err, 音韻地位們: [] };
+	}
+	return { ...query, ...result };
+}
+
+const initial查詢方式: 查詢方式 = "音韻表達式";
+const initialQuery: Query = {
+	查詢方式: initial查詢方式,
+	用户輸入: 佔位符(initial查詢方式),
+};
 
 export default function App() {
-	const [curr查詢方式, setCurr查詢方式] = useState<查詢方式>("音韻表達式");
-	const [curr用户輸入, setCurr用户輸入] = useState<string>("冬韻 平聲");
-	const [invalid, setInvalid] = useState<boolean>(false);
+	const [edited, setEdited] = useState(false);
 	const [用户輸入, set用户輸入] = useReducer((_: string, 用户輸入: string) => {
-		setInvalid(false);
+		setEdited(true);
 		return 用户輸入;
-	}, "冬韻 平聲");
+	}, initialQuery.用户輸入);
 	const [查詢方式, set查詢方式] = useReducer((_: 查詢方式, 查詢方式: 查詢方式) => {
 		set用户輸入(佔位符(查詢方式));
 		return 查詢方式;
-	}, "音韻表達式");
+	}, initialQuery.查詢方式);
 	const [顯示哪些字, set顯示哪些字] = useState<顯示哪些字>("只顯示常用字");
+	const [queryResult, dispatchQuery] = useReducer(queryResultReducer, initialQuery, query => ({
+		...query,
+		err: null,
+		音韻地位們: 查詢音韻地位[query.查詢方式](query.用户輸入),
+	}));
 	const [charWidth, setCharWidth] = useState(1);
 	const [charsPerLine, setCharsPerLine] = useState(1);
 
@@ -36,8 +71,8 @@ export default function App() {
 	const onQuerySubmit = useCallback(
 		(event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault();
-			setCurr查詢方式(查詢方式);
-			setCurr用户輸入(用户輸入);
+			setEdited(false);
+			dispatchQuery({ 查詢方式, 用户輸入 });
 		},
 		[查詢方式, 用户輸入]
 	);
@@ -91,7 +126,7 @@ export default function App() {
 						name="用户輸入"
 						type="text"
 						value={用户輸入}
-						className={invalid ? "invalid" : ""}
+						className={queryResult.err && !edited ? "invalid" : ""}
 						onInput={on用户輸入Input}
 						ref={用户輸入Input}
 					/>
@@ -159,9 +194,7 @@ export default function App() {
 				</button>
 			</form>
 			<OutputArea
-				查詢方式={curr查詢方式}
-				用户輸入={curr用户輸入}
-				setInvalid={setInvalid}
+				queryResult={queryResult}
 				顯示哪些字={顯示哪些字}
 				charsPerLine={charsPerLine}
 				charWidth={charWidth}

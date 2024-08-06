@@ -256,6 +256,7 @@ output {
 
 #errorArea {
 	color: #ff0032;
+	white-space: pre;
 }
 
 .hidden {
