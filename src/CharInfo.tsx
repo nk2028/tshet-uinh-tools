@@ -1,13 +1,13 @@
 import { 資料 } from "qieyun";
 import { forwardRef, useEffect, useMemo, useState } from "react";
 
-type Props = {
+interface Props {
 	字頭們: string[];
 	描述們: ReadonlySet<string>;
 	charsPerLine: number;
 	charWidth: number;
 	toggleCharInfo: { current: ((i: number) => void) | undefined };
-};
+}
 
 export default forwardRef<HTMLDivElement, Props>(function CharInfo(
 	{ 字頭們, 描述們, charsPerLine, charWidth, toggleCharInfo }: Props,

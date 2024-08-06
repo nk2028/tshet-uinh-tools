@@ -5,13 +5,13 @@ import { cmp, iter描述, 常見字頻序, 顯示哪些字 } from "./utils";
 
 import type { QueryResult } from "./App";
 
-type Props = {
+interface Props {
 	queryResult: QueryResult;
 	顯示哪些字: 顯示哪些字;
 	charsPerLine: number;
 	charWidth: number;
 	copy字頭: { current: string };
-};
+}
 
 export default memo(
 	forwardRef<HTMLOutputElement, Props>(function OutputArea(

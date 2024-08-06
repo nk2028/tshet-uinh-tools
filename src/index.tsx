@@ -4,7 +4,7 @@ import App from "./App";
 import "purecss/build/pure-min.css";
 import "./style.css";
 
-createRoot(document.getElementById("root") as HTMLElement).render(
+createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<App />
 	</StrictMode>,

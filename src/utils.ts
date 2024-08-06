@@ -8,7 +8,7 @@ export const 常見字頻序 = new Map<string, number>();
 	常見字頻序.set(字, 頻序);
 });
 
-export const cmp = (a: string, b: string) => (常見字頻序.get(a) || 99999) - (常見字頻序.get(b) || 99999);
+export const cmp = (a: string, b: string) => (常見字頻序.get(a) ?? 99999) - (常見字頻序.get(b) ?? 99999);
 
 export type 查詢方式 = "音韻表達式" | "音韻描述";
 export type 顯示哪些字 = "只顯示常用字" | "一個音韻地位只顯示一個代表字" | "顯示所有字";

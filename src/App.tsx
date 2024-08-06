@@ -86,11 +86,11 @@ export default function App() {
 			const inputElement = 用户輸入Input.current;
 			const { selectionStart, selectionEnd, value } = inputElement;
 
-			let text = value.slice(0, selectionStart || value.length);
-			let textAfterCursor = value.slice(selectionEnd || value.length);
-			if (!屬性後綴.has(textContent!) && text && text.slice(-1) !== " ") text += " ";
+			let text = value.slice(0, selectionStart ?? value.length);
+			let textAfterCursor = value.slice(selectionEnd ?? value.length);
+			if (!屬性後綴.has(textContent!) && text && !text.endsWith(" ")) text += " ";
 			text += textContent + " ";
-			if (textAfterCursor[0] === " ") textAfterCursor = textAfterCursor.slice(1);
+			if (textAfterCursor.startsWith(" ")) textAfterCursor = textAfterCursor.slice(1);
 			set用户輸入(inputElement.value = text + textAfterCursor);
 
 			inputElement.selectionStart = inputElement.selectionEnd = text.length;
