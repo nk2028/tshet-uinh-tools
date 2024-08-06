@@ -19,16 +19,14 @@ jobs:
     steps:
       - name: Get Latest Code
         uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
       - name: Install Dependencies
-        run: npm ci
-      - name: Test
-        run: npm test
+        run: bun i --frozen-lockfile
+      - name: Lint, Check Format & Types
+        run: bun run test
       - name: Build Project
-        run: npm run build
+        run: bun run build
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
