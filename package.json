@@ -4,7 +4,7 @@
 	"description": "A tool to find the Chinese characters by phonological expressions",
 	"type": "module",
 	"scripts": {
-		"postinstall": "curl -sSLO 'https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie@69bc015/texts/常用字頻序表.txt'",
+		"postinstall": "bun -e \"Bun.write('常用字頻序表.txt', await fetch('https://cdn.jsdelivr.net/gh/ayaka14732/syyon-vencie/texts/常用字頻序表.txt'))\"",
 		"start": "vite",
 		"build": "vite build",
 		"preview": "vite preview",
