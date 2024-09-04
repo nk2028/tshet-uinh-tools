@@ -1,5 +1,5 @@
 {
-	"name": "qieyun-tools",
+	"name": "tshet-uinh-tools",
 	"private": true,
 	"description": "A tool to find the Chinese characters by phonological expressions",
 	"type": "module",
@@ -16,7 +16,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/nk2028/qieyun-tools.git"
+		"url": "git+https://github.com/nk2028/tshet-uinh-tools.git"
 	},
 	"keywords": [
 		"historical-linguistics",
@@ -59,7 +59,7 @@
 	"author": "Ngiox Khyen 2028 Project",
 	"license": "CC0-1.0",
 	"bugs": {
-		"url": "https://github.com/nk2028/qieyun-tools/issues"
+		"url": "https://github.com/nk2028/tshet-uinh-tools/issues"
 	},
-	"homepage": "qieyun-tools/"
+	"homepage": "https://nk2028.shn.hk/tshet-uinh-tools/"
 }
