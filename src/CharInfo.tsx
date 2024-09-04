@@ -1,5 +1,5 @@
-import { 資料 } from "tshet-uinh";
 import { forwardRef, useEffect, useMemo, useState } from "react";
+import { 資料 } from "tshet-uinh";
 
 interface Props {
 	字頭們: string[];
