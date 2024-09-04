@@ -74,7 +74,7 @@ export default forwardRef<HTMLDivElement, Props>(function CharInfo(
 								const { 反切: 反切_, 釋義, 來源 } = 條目;
 								const 反切 = 反切_ ? `${反切_}${來源?.文獻 === "王三" ? "反" : "切"} ` : "";
 								const 來源括註 = 來源 && ["廣韻", "王三"].includes(來源.文獻)
-									? `（《${來源.文獻}》${來源.韻目}韻）`
+									? `［${來源.文獻} ${來源.韻目}韻］`
 									: "";
 								return <li key={i} className="pageItem">{`${反切}${釋義}${來源括註}`}</li>;
 							})}
