@@ -1,4 +1,4 @@
-import { 資料 } from "qieyun";
+import { 資料 } from "tshet-uinh";
 import { forwardRef, memo, useMemo, useRef } from "react";
 import CharInfo from "./CharInfo";
 import { cmp, iter描述, 常見字頻序, 顯示哪些字 } from "./utils";

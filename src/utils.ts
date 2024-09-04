@@ -1,4 +1,4 @@
-import { 資料, 音韻地位 } from "qieyun";
+import { 資料, 音韻地位 } from "tshet-uinh";
 
 import 常用字頻序表 from "../常用字頻序表.txt?raw";
 

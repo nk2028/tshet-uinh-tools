@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, MouseEvent, useCallback, useReducer, useRef, us
 import OutputArea from "./OutputArea";
 import { copyToClipboard, 佔位符, 屬性後綴, 查詢方式, 查詢音韻地位, 顯示哪些字 } from "./utils";
 
-import type { 音韻地位 } from "qieyun";
+import type { 音韻地位 } from "tshet-uinh";
 
 interface Query {
 	查詢方式: 查詢方式;
@@ -137,8 +137,8 @@ export default function App() {
 					<li className={查詢方式 === "音韻描述" ? "" : "hidden"}>
 						音韻描述格式必須為：<b>母</b>&#x2002;呼&#x2002;等&#x2002;重紐&#x2002;<b>韻</b>&#x2002;<b>聲</b>
 						，粗體者不可省略（詳見{" "}
-						<a href="https://nk2028.shn.hk/qieyun-js/">
-							<span lang="en-HK">qieyun-js</span>
+						<a href="https://nk2028.shn.hk/tshet-uinh-js/">
+							<span lang="en-HK">TshetUinh.js</span>
 						</a>
 						）
 					</li>
@@ -152,10 +152,9 @@ export default function App() {
 						、<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>清音</b>、<b>濁音</b>
 						、<b>銳音</b>、<b>鈍音</b>
 						、<b>陰聲韻</b>、<b>陽聲韻</b>、<b>入聲韻</b>
-						、<b>次入韻</b>
 						、<b>且</b>（可省略）、<b>或</b>、<b>非</b>、括號（詳見{" "}
-						<a href="https://nk2028.shn.hk/qieyun-js/">
-							<span lang="en-HK">qieyun-js</span>
+						<a href="https://nk2028.shn.hk/tshet-uinh-js/">
+							<span lang="en-HK">TshetUinh.js</span>
 						</a>
 						）
 					</li>
