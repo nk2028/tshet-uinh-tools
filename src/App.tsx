@@ -135,7 +135,7 @@ export default function App() {
 				</div>
 				<ul className="tips">
 					<li className={查詢方式 === "音韻描述" ? "" : "hidden"}>
-						音韻描述格式必須為：<b>母</b>&#x2002;呼&#x2002;等&#x2002;重紐&#x2002;<b>韻</b>&#x2002;<b>聲</b>
+						音韻描述格式必須為：<b>母</b>&#x2002;呼&#x2002;等&#x2002;類&#x2002;<b>韻</b>&#x2002;<b>聲</b>
 						，粗體者不可省略（詳見{" "}
 						<a href="https://nk2028.shn.hk/tshet-uinh-js/">
 							<span lang="en-HK">TshetUinh.js</span>
