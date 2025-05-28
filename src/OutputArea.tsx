@@ -42,7 +42,7 @@ export default memo(
 		}, [err, 音韻地位們, 顯示哪些字]);
 
 		if (err) {
-			let message = String(err);
+			let message = String(err as Error);
 			if (import.meta.env.DEV) {
 				if (err instanceof Error && err.stack) {
 					message += `\n${err.stack}`;
