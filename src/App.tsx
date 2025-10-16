@@ -88,7 +88,7 @@ export default function App() {
 
 			let text = value.slice(0, selectionStart ?? value.length);
 			let textAfterCursor = value.slice(selectionEnd ?? value.length);
-			if (!屬性後綴.has(textContent!) && text && !text.endsWith(" ")) text += " ";
+			if (!屬性後綴.has(textContent) && text && !text.endsWith(" ")) text += " ";
 			text += textContent + " ";
 			if (textAfterCursor.startsWith(" ")) textAfterCursor = textAfterCursor.slice(1);
 			set用户輸入(inputElement.value = text + textAfterCursor);

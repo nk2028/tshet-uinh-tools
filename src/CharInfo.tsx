@@ -32,6 +32,7 @@ export default forwardRef<HTMLDivElement, Props>(function CharInfo(
 		return [...by地位];
 	}, [字頭]);
 
+	// eslint-disable-next-line react-hooks/immutability -- FIXME
 	toggleCharInfo.current = i => {
 		if (i === index && !hidden) setHidden(true);
 		else {

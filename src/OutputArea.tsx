@@ -3,6 +3,7 @@ import { 資料 } from "tshet-uinh";
 import CharInfo from "./CharInfo";
 import { cmp, iter描述, 常見字頻序, 顯示哪些字 } from "./utils";
 
+import type { JSX } from "react";
 import type { QueryResult } from "./App";
 
 interface Props {
@@ -18,7 +19,7 @@ export default memo(
 		{ queryResult, 顯示哪些字, charsPerLine, charWidth, copy字頭 }: Props,
 		ref,
 	) {
-		const toggleCharInfo = useRef<(i: number) => void>();
+		const toggleCharInfo = useRef<(i: number) => void>(undefined);
 
 		const { err, 音韻地位們 } = queryResult;
 		const 字頭們 = useMemo(() => {
@@ -57,6 +58,7 @@ export default memo(
 
 		const lines: JSX.Element[][] = [];
 		let chars: JSX.Element[] = [];
+		// eslint-disable-next-line react-hooks/immutability -- FIXME
 		copy字頭.current = 字頭們.join("");
 		字頭們.forEach((字頭, i) => {
 			if (!(i % charsPerLine)) {
