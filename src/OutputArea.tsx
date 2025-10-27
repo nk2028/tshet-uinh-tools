@@ -1,52 +1,36 @@
-import { forwardRef, memo, useMemo, useRef } from "react";
-import { 資料 } from "tshet-uinh";
+import { forwardRef, memo, useMemo, useState } from "react";
 import CharInfo from "./CharInfo";
-import { cmp, iter描述, 常見字頻序, 顯示哪些字 } from "./utils";
 
 import type { JSX } from "react";
-import type { QueryResult } from "./App";
+import type { 音韻地位結果 } from "./App";
 
 interface Props {
-	queryResult: QueryResult;
-	顯示哪些字: 顯示哪些字;
+	音韻地位結果: 音韻地位結果;
+	字頭結果: string[];
 	charsPerLine: number;
 	charWidth: number;
-	copy字頭: { current: string };
 }
 
 export default memo(
 	forwardRef<HTMLOutputElement, Props>(function OutputArea(
-		{ queryResult, 顯示哪些字, charsPerLine, charWidth, copy字頭 }: Props,
+		{ 音韻地位結果, 字頭結果, charsPerLine, charWidth }: Props,
 		ref,
 	) {
-		const toggleCharInfo = useRef<(i: number) => void>(undefined);
+		const [showCharInfo, setShowCharInfo] = useState(false);
+		const [infoIndex, setInfoIndex] = useState(0);
 
-		const { err, 音韻地位們 } = queryResult;
-		const 字頭們 = useMemo(() => {
-			if (err) {
-				return [];
-			}
-			const 結果 = new Set<string>();
-			for (const 音韻地位 of 音韻地位們) {
-				const 條目 = 資料.query音韻地位(音韻地位);
-				if (顯示哪些字 === "一個音韻地位只顯示一個代表字" && 條目.length) {
-					結果.add(條目.reduce((prev, cur) => cmp(cur.字頭, prev.字頭) < 0 ? cur : prev).字頭);
-				} else {
-					for (const { 字頭 } of 條目) {
-						if (顯示哪些字 === "顯示所有字" || 常見字頻序.has(字頭)) {
-							結果.add(字頭);
-						}
-					}
-				}
-			}
-			return [...結果].sort(cmp);
-		}, [err, 音韻地位們, 顯示哪些字]);
+		const { error, 各音韻地位 } = 音韻地位結果;
 
-		if (err) {
-			let message = String(err as Error);
+		const isQueried音韻地位 = useMemo<(描述: string) => boolean>(() => {
+			const set = new Set(各音韻地位.map(地位 => 地位.描述));
+			return set.has.bind(set);
+		}, [各音韻地位]);
+
+		if (error) {
+			let message = String(error as Error);
 			if (import.meta.env.DEV) {
-				if (err instanceof Error && err.stack) {
-					message += `\n${err.stack}`;
+				if (error instanceof Error && error.stack) {
+					message += `\n${error.stack}`;
 				}
 			}
 			return (
@@ -56,23 +40,31 @@ export default memo(
 			);
 		}
 
+		const onCharClicked = (i: number) => {
+			if (infoIndex === i) {
+				setShowCharInfo(x => !x);
+			} else {
+				setInfoIndex(i);
+				setShowCharInfo(true);
+			}
+		};
+
 		const lines: JSX.Element[][] = [];
 		let chars: JSX.Element[] = [];
-		// eslint-disable-next-line react-hooks/immutability -- FIXME
-		copy字頭.current = 字頭們.join("");
-		字頭們.forEach((字頭, i) => {
+		字頭結果.forEach((字頭, i) => {
 			if (!(i % charsPerLine)) {
 				if (i) lines.push(chars);
 				chars = [];
 			}
 			chars.push(
-				<button key={字頭} className="char" onClick={() => toggleCharInfo.current?.(i)}>
+				<button key={字頭} className="char" onClick={() => onCharClicked(i)}>
 					{字頭}
 				</button>,
 			);
 		});
 		lines.push(chars);
-		return 字頭們.length
+
+		return 字頭結果.length
 			? (
 				<output id="outputArea" ref={ref}>
 					{lines.map((chars, order) => (
@@ -81,12 +73,13 @@ export default memo(
 						</div>
 					))}
 					<CharInfo
-						key={copy字頭.current}
-						字頭們={字頭們}
-						描述們={new Set(iter描述(音韻地位們))}
+						key={字頭結果[infoIndex]}
+						show={showCharInfo}
+						index={infoIndex}
+						字頭={字頭結果[infoIndex]}
+						isQueried音韻地位={isQueried音韻地位}
 						charsPerLine={charsPerLine}
 						charWidth={charWidth}
-						toggleCharInfo={toggleCharInfo}
 					/>
 				</output>
 			)

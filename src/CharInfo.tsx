@@ -1,24 +1,19 @@
-import { forwardRef, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { 資料 } from "tshet-uinh";
 
 interface Props {
-	字頭們: string[];
-	描述們: ReadonlySet<string>;
+	show: boolean;
+	index: number;
+	字頭: string;
+	isQueried音韻地位: (描述: string) => boolean;
 	charsPerLine: number;
 	charWidth: number;
-	toggleCharInfo: { current: ((i: number) => void) | undefined };
 }
 
-export default forwardRef<HTMLDivElement, Props>(function CharInfo(
-	{ 字頭們, 描述們, charsPerLine, charWidth, toggleCharInfo }: Props,
-	ref,
-) {
-	const [hidden, setHidden] = useState(true);
-	const [index, setIndex] = useState(0);
+export default function CharInfo({ show, index, 字頭, isQueried音韻地位, charsPerLine, charWidth }: Props) {
 	const [tabIndex, setTabIndex] = useState(0);
 
-	const 字頭 = 字頭們[index];
-	const 地位們 = useMemo(() => {
+	const 條目結果originalOrder = useMemo(() => {
 		const by地位 = new Map<string, 資料.檢索結果[]>();
 
 		for (const 條目 of 資料.query字頭(字頭)) {
@@ -32,33 +27,27 @@ export default forwardRef<HTMLDivElement, Props>(function CharInfo(
 		return [...by地位];
 	}, [字頭]);
 
-	// eslint-disable-next-line react-hooks/immutability -- FIXME
-	toggleCharInfo.current = i => {
-		if (i === index && !hidden) setHidden(true);
-		else {
-			setHidden(false);
-			setIndex(i);
+	const 條目結果 = useMemo<typeof 條目結果originalOrder>(() => {
+		const sorted: (typeof 條目結果originalOrder)[] = [[], []];
+		for (const entry of 條目結果originalOrder) {
+			const 描述 = entry[0];
+			sorted[+isQueried音韻地位(描述)].push(entry);
 		}
-	};
-
-	useEffect(() => {
-		const tabIndex = 地位們.findIndex(([描述]) => 描述們.has(描述));
-		setTabIndex(tabIndex === -1 ? 0 : tabIndex);
-	}, [index, 地位們, 描述們]);
+		return [...sorted[1], ...sorted[0]];
+	}, [條目結果originalOrder, isQueried音韻地位]);
 
 	const 字頭URI = encodeURIComponent(字頭);
 
 	return (
 		<div
 			id="charInfo"
-			className={`charInfo${hidden ? " hidden" : ""}`}
+			className={`charInfo${show ? "" : " hidden"}`}
 			style={{ order: Math.floor(index / charsPerLine) }}
-			ref={ref}
 		>
 			<div id="infoArrow" className="arrow" style={{ left: (index % charsPerLine) * charWidth + "px" }}></div>
 			<div id="infoMain" className="infoMain">
 				<div className="tabs pure-button-group">
-					{地位們.map(([描述], i) => (
+					{條目結果.map(([描述], i) => (
 						<button
 							key={描述}
 							className={`tab pure-button${i === tabIndex ? " pure-button-active" : ""}`}
@@ -69,7 +58,7 @@ export default forwardRef<HTMLDivElement, Props>(function CharInfo(
 					))}
 				</div>
 				<div className="pages">
-					{地位們.map(([描述, 條目們], i) => (
+					{條目結果.map(([描述, 條目們], i) => (
 						<ul key={描述} className={`page${i === tabIndex ? "" : " hidden"}`}>
 							{條目們.map(條目 => {
 								const { 反切: 反切_, 釋義, 來源 } = 條目;
@@ -105,4 +94,4 @@ export default forwardRef<HTMLDivElement, Props>(function CharInfo(
 			</div>
 		</div>
 	);
-});
+}

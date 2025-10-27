@@ -1,41 +1,38 @@
-import { ChangeEvent, FormEvent, MouseEvent, useCallback, useReducer, useRef, useState } from "react";
-import OutputArea from "./OutputArea";
-import { copyToClipboard, 佔位符, 屬性後綴, 查詢方式, 查詢音韻地位, 顯示哪些字 } from "./utils";
+import { ChangeEvent, FormEvent, MouseEvent, useCallback, useMemo, useReducer, useRef, useState } from "react";
 
-import type { 音韻地位 } from "tshet-uinh";
+import { 資料, type 音韻地位 } from "tshet-uinh";
+
+import OutputArea from "./OutputArea";
+import {
+	compare字頭order,
+	copyToClipboard,
+	佔位符,
+	屬性後綴,
+	常見字頻序,
+	type 查詢方式,
+	查詢音韻地位,
+	type 顯示哪些字,
+} from "./utils";
 
 interface Query {
 	查詢方式: 查詢方式;
 	用户輸入: string;
 }
 
-interface Result {
-	err: unknown;
-	音韻地位們: 音韻地位[];
-}
-
-export type QueryResult = Query & Result;
-
-function queryResultReducer(previous: QueryResult, query: Query): QueryResult {
-	if ((["查詢方式", "用户輸入"] as const).every(key => previous[key] === query[key])) {
-		return previous;
-	}
-	let result: Result;
-	try {
-		result = { err: null, 音韻地位們: 查詢音韻地位[query.查詢方式](query.用户輸入) };
-	} catch (err) {
-		result = { err, 音韻地位們: [] };
-	}
-	return { ...query, ...result };
+export interface 音韻地位結果 {
+	error: unknown;
+	各音韻地位: 音韻地位[];
 }
 
 const initial查詢方式: 查詢方式 = "音韻表達式";
-const initialQuery: Query = {
+const initialQuery = {
 	查詢方式: initial查詢方式,
 	用户輸入: 佔位符(initial查詢方式),
-};
+} as const satisfies Query;
 
 export default function App() {
+	// Form states
+
 	const [edited, setEdited] = useState(false);
 	const [用户輸入, set用户輸入] = useReducer((_: string, 用户輸入: string) => {
 		setEdited(true);
@@ -46,11 +43,9 @@ export default function App() {
 		return 查詢方式;
 	}, initialQuery.查詢方式);
 	const [顯示哪些字, set顯示哪些字] = useState<顯示哪些字>("只顯示常用字");
-	const [queryResult, dispatchQuery] = useReducer(queryResultReducer, initialQuery, query => ({
-		...query,
-		err: null,
-		音韻地位們: 查詢音韻地位[query.查詢方式](query.用户輸入),
-	}));
+
+	// Responsive UI states
+
 	const [charWidth, setCharWidth] = useState(1);
 	const [charsPerLine, setCharsPerLine] = useState(1);
 
@@ -65,15 +60,54 @@ export default function App() {
 		}
 	}, []);
 
+	// Functionality states
+
+	const [query, setQuery] = useState<Query>(initialQuery);
+	// `queryId` is used for resetting OutputArea
+	const [queryId, setQueryId] = useState(0);
+	const 音韻地位結果 = useMemo<音韻地位結果>(() => {
+		const { 查詢方式, 用户輸入 } = query;
+		let error: unknown = null;
+		let 各音韻地位: 音韻地位[] = [];
+		try {
+			各音韻地位 = 查詢音韻地位[查詢方式](用户輸入);
+		} catch (e) {
+			error = e;
+		}
+		return { error, 各音韻地位 };
+	}, [query]);
+	const 字頭結果 = useMemo(() => {
+		const { error, 各音韻地位 } = 音韻地位結果;
+		if (error) {
+			return [];
+		}
+		const 結果 = new Set<string>();
+		for (const 音韻地位 of 各音韻地位) {
+			const 條目 = 資料.query音韻地位(音韻地位);
+			if (顯示哪些字 === "一個音韻地位只顯示一個代表字" && 條目.length) {
+				結果.add(條目.reduce((prev, cur) => compare字頭order(cur.字頭, prev.字頭) < 0 ? cur : prev).字頭);
+			} else {
+				for (const { 字頭 } of 條目) {
+					if (顯示哪些字 === "顯示所有字" || 常見字頻序.has(字頭)) {
+						結果.add(字頭);
+					}
+				}
+			}
+		}
+		return [...結果].sort(compare字頭order);
+	}, [顯示哪些字, 音韻地位結果]);
+
+	// UI actions
+
 	const copyPopup = useRef<HTMLSpanElement>(null!);
-	const copy字頭 = useRef("");
-	const onClickCopy = useCallback(() => void copyToClipboard(copy字頭.current, copyPopup.current), []);
+	const onClickCopy = useCallback(() => void copyToClipboard(字頭結果.join(""), copyPopup.current), [字頭結果]);
 
 	const onQuerySubmit = useCallback(
 		(event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault();
 			setEdited(false);
-			dispatchQuery({ 查詢方式, 用户輸入 });
+			setQuery({ 查詢方式, 用户輸入 });
+			setQueryId(x => x + 1);
 		},
 		[查詢方式, 用户輸入],
 	);
@@ -107,7 +141,10 @@ export default function App() {
 		[],
 	);
 	const on顯示哪些字Change = useCallback(
-		({ currentTarget: { value } }: ChangeEvent<HTMLInputElement>) => set顯示哪些字(value as 顯示哪些字),
+		({ currentTarget: { value } }: ChangeEvent<HTMLInputElement>) => {
+			set顯示哪些字(value as 顯示哪些字);
+			setQueryId(x => x + 1);
+		},
 		[],
 	);
 
@@ -127,7 +164,7 @@ export default function App() {
 						name="用户輸入"
 						type="text"
 						value={用户輸入}
-						className={queryResult.err && !edited ? "invalid" : ""}
+						className={音韻地位結果.error && !edited ? "invalid" : ""}
 						onInput={on用户輸入Input}
 						ref={用户輸入Input}
 					/>
@@ -146,7 +183,7 @@ export default function App() {
 						支援的音韻表達式運算符：幫<b>母</b>、脣<b>音</b>、幫<b>組</b>
 						、<b>開口</b>、<b>合口</b>、<b>開合中立</b>
 						、一<b>等</b>
-						、A<b>類</b>、B<b>類</b>、C<b>類</b>、<b>不分類</b>
+						、<b>A類</b>、<b>B類</b>、<b>C類</b>、<b>不分類</b>
 						、東<b>韻</b>、通<b>攝</b>
 						、平<b>聲</b>、<b>仄聲</b>、<b>舒聲</b>
 						、<b>全清</b>、<b>次清</b>、<b>全濁</b>、<b>次濁</b>、<b>清音</b>、<b>濁音</b>
@@ -200,11 +237,11 @@ export default function App() {
 				</button>
 			</form>
 			<OutputArea
-				queryResult={queryResult}
-				顯示哪些字={顯示哪些字}
+				key={queryId}
+				音韻地位結果={音韻地位結果}
+				字頭結果={字頭結果}
 				charsPerLine={charsPerLine}
 				charWidth={charWidth}
-				copy字頭={copy字頭}
 				ref={observeOutputArea}
 			>
 			</OutputArea>
