@@ -233,6 +233,9 @@ output {
 	border: none;
 	border-radius: 0;
 }
+.infoMain .tab.not-queried::before {
+	content: "*";
+}
 .infoMain .tab.pure-button-active {
 	-webkit-box-shadow: none;
 	box-shadow: none;

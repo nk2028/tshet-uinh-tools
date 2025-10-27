@@ -1,6 +1,15 @@
 import { useMemo, useState } from "react";
 import { 資料 } from "tshet-uinh";
 
+function tabClassName(active: boolean, isQueried: boolean) {
+	const classes = ["tab", "pure-button"];
+	if (active) {
+		classes.push("pure-button-active");
+	}
+	classes.push(isQueried ? "queried" : "not-queried");
+	return classes.join(" ");
+}
+
 interface Props {
 	show: boolean;
 	index: number;
@@ -50,7 +59,7 @@ export default function CharInfo({ show, index, 字頭, isQueried音韻地位, c
 					{條目結果.map(([描述], i) => (
 						<button
 							key={描述}
-							className={`tab pure-button${i === tabIndex ? " pure-button-active" : ""}`}
+							className={tabClassName(i === tabIndex, isQueried音韻地位(描述))}
 							onClick={() => setTabIndex(i)}
 						>
 							{描述}
