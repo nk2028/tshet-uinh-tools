@@ -247,6 +247,23 @@ output {
 	margin: 0;
 	padding: 0 1.5rem 0 2.5rem;
 }
+.infoMain .pageItem {
+	margin: 0.4rem 0;
+}
+.infoMain .pageItem > p {
+	margin: 0.1rem 0 0;
+}
+.infoMain .pageItem > p:first-child {
+	margin: 0;
+}
+.infoMain .pageItem .headword {
+	font-size: 1.375rem;
+	line-height: 1;
+}
+.infoMain .pageItem > .headwordNote {
+	color: #bb0000;
+	font-size: 0.875rem;
+}
 .infoMain .links {
 	padding: 1rem 0.75rem 0.5rem;
 	font-size: 85%;
