@@ -11,6 +11,7 @@ import {
 	常見字頻序,
 	type 查詢方式,
 	查詢音韻地位,
+	條目有效字頭,
 	type 顯示哪些字,
 } from "./utils";
 
@@ -83,11 +84,12 @@ export default function App() {
 		}
 		const 結果 = new Set<string>();
 		for (const 音韻地位 of 各音韻地位) {
-			const 條目 = 資料.query音韻地位(音韻地位);
-			if (顯示哪些字 === "一個音韻地位只顯示一個代表字" && 條目.length) {
-				結果.add(條目.reduce((prev, cur) => compare字頭order(cur.字頭, prev.字頭) < 0 ? cur : prev).字頭);
+			const 各條目 = 資料.query音韻地位(音韻地位);
+			if (顯示哪些字 === "一個音韻地位只顯示一個代表字" && 各條目.length) {
+				結果.add(各條目.map(條目有效字頭).reduce((prev, cur) => compare字頭order(cur, prev) < 0 ? cur : prev));
 			} else {
-				for (const { 字頭 } of 條目) {
+				for (const 條目 of 各條目) {
+					const 字頭 = 條目有效字頭(條目);
 					if (顯示哪些字 === "顯示所有字" || 常見字頻序.has(字頭)) {
 						結果.add(字頭);
 					}

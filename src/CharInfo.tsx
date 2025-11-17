@@ -23,7 +23,7 @@ export default function CharInfo({ show, index, 字頭, isQueried音韻地位, c
 	const [tabIndex, setTabIndex] = useState(0);
 
 	const 條目結果originalOrder = useMemo(() => {
-		const by地位 = new Map<string, 資料.檢索結果[]>();
+		const by地位 = new Map<string, 資料.資料條目[]>();
 
 		for (const 條目 of 資料.query字頭(字頭)) {
 			const key = 條目.音韻地位.描述;
@@ -67,15 +67,21 @@ export default function CharInfo({ show, index, 字頭, isQueried音韻地位, c
 					))}
 				</div>
 				<div className="pages">
-					{條目結果.map(([描述, 條目們], i) => (
+					{條目結果.map(([描述, 各條目], i) => (
 						<ul key={描述} className={`page${i === tabIndex ? "" : " hidden"}`}>
-							{條目們.map(條目 => {
-								const { 反切: 反切_, 釋義, 來源 } = 條目;
-								const 反切 = 反切_ ? `${反切_}${來源?.文獻 === "王三" ? "反" : "切"} ` : "";
-								const 來源括註 = 來源 && ["廣韻", "王三"].includes(來源.文獻)
-									? `［${來源.文獻} ${來源.韻目}韻］`
-									: "";
-								return <li key={i} className="pageItem">{`${反切}${釋義}${來源括註}`}</li>;
+							{各條目.map(條目 => {
+								const { 字頭: 條目字頭, 字頭說明, 反切, 直音, 釋義, 來源, 韻目 } = 條目;
+								const 音注 = 反切 ? 反切 + (來源 === "廣韻" ? "切" : "反") : "音" + 直音;
+								return (
+									<li key={i} className="pageItem">
+										<p>
+											<span className="headword">{條目字頭}</span> {音注}
+										</p>
+										{釋義 ? <p>{釋義}</p> : null}
+										{字頭說明 ? <p className="headwordNote">{字頭說明}</p> : null}
+										<p>{來源} {韻目}韻</p>
+									</li>
+								);
 							})}
 						</ul>
 					))}

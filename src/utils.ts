@@ -10,6 +10,12 @@ export const 常見字頻序 = new Map<string, number>();
 
 export const compare字頭order = (a: string, b: string) => (常見字頻序.get(a) ?? 99999) - (常見字頻序.get(b) ?? 99999);
 
+/** 條目的校正後字頭，但應刪條目（沒有校正字頭）則用字頭原貌 */
+export function 條目有效字頭(條目: 資料.資料條目): string {
+	// NOTE Non-null assertion safe because 字頭校正 and 字頭原貌 cannot be both null
+	return (條目.字頭校正 ?? 條目.字頭原貌)!;
+}
+
 export type 查詢方式 = "音韻表達式" | "音韻描述";
 export type 顯示哪些字 = "只顯示常用字" | "一個音韻地位只顯示一個代表字" | "顯示所有字";
 
